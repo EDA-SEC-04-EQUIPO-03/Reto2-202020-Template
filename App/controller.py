@@ -36,11 +36,65 @@ recae sobre el controlador.
 # ___________________________________________________
 #  Inicializacion del catalogo
 # ___________________________________________________
-
-
-
+def initCatalog():
+    """
+    Llama la funcion de inicializacion del catalogo del modelo.
+    """
+    # catalog es utilizado para interactuar con el modelo
+    catalog = model.newCatalog()
+    return catalog
 
 # ___________________________________________________
 #  Funciones para la carga de datos y almacenamiento
 #  de datos en los modelos
 # ___________________________________________________
+
+def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
+    """
+    Carga los datos de los archivos en el modelo
+    """
+    loadMovies(catalog, smallmoviesfile)
+    loadCasting(catalog, smallcastingfile)
+    
+def loadMovies(catalog, smallmoviesfile):
+    """
+    Carga cada una de las lineas del archivo de libros.
+    - Se agrega cada libro al catalogo de libros
+    - Por cada libro se encuentran sus autores y por cada
+      autor, se crea una lista con sus libros
+    """
+    smallmoviesfile = cf.data_dir + smallmoviesfile
+    input_file = csv.DictReader(open(smallmoviesfile))
+    for movie in input_file:
+        model.addMovie(catalog, movie)
+
+
+def loadCasting(catalog, smallcastingfile):
+    """
+    Carga en el catalogo los tags a partir de la informacion
+    del archivo de etiquetas
+    """
+    smallcastingfile = cf.data_dir + smallcastingfile
+    input_file = csv.DictReader(open(smallcastingfile))
+    for cast in input_file:
+        model.addCast(catalog, cast)
+
+# ___________________________________________________
+#  Funciones para consultas
+# ____________________________________________
+def moviesSize(catalog):
+    """Numero de libros leido
+    """
+    return model.moviesSize(catalog)
+
+def genresSize(catalog):
+    """Numero de libros leido
+    """
+    return model.genresSize(catalog)
+
+def getMoviesByCountry(catalog, country):
+    """
+    Retorna los libros de un autor
+    """
+    countryinfo = model.getMoviesByCountry(catalog, country)
+    return country

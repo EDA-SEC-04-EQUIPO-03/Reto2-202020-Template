@@ -37,7 +37,10 @@ operación seleccionada.
 # ___________________________________________________
 #  Ruta a los archivos
 # ___________________________________________________
-
+smallmoviesfile= "Data/SmallMoviesDetailsCleaned.csv"
+smallcastingfile= "Data/MoviesCastingRaw-small.csv"
+moviesfile= "Data/AllMoviesDetailsCleaned.csv"
+castingfile= "Data/AllMoviesCastingRaw.csv"
 
 
 
@@ -53,3 +56,48 @@ operación seleccionada.
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
+
+
+def printMenu():
+    print("Bienvenido")
+    print("1- Inicializar Catálogo de películas")
+    print("2- Cargar información en el catálogo")
+    print("3- Descubrir productoras de cine")
+    print("4- Conocer un director")
+    print("5- Conocer un actor")
+    print("6- Entender un género cinematográfico")
+    print("7- Consultar películas por país")
+    print("0- Salir")
+
+
+while True:
+    printMenu()
+    inputs = input('Seleccione una opción para continuar\n')
+
+    if int(inputs[0]) == 1:
+        print("Inicializando Catálogo ....")
+        cont = controller.initCatalog()
+
+    elif int(inputs[0]) == 2:
+        print("Cargando información de los archivos ....")
+        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
+        print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
+        print('Géneros cargados: ' + str(controller.genresSize(cont)))
+
+    elif int(inputs[0]) == 3:
+        number = input("Consultando productoras de cine...: ")
+        books = controller.getBooksYear(cont, int(number))
+        printBooksbyYear(books)
+
+    elif int(inputs[0]) == 4:
+        authorname = input("Nombre del autor a buscar: ")
+        authorinfo = controller.getBooksByAuthor(cont, authorname)
+        printAuthorData(authorinfo)
+
+    elif int(inputs[0]) == 5:
+        label = input("Etiqueta a buscar: ")
+        books = controller.getBooksByTag(cont, label)
+        printBooksbyTag(books)
+    else:
+        sys.exit(0)
+sys.exit(0)
