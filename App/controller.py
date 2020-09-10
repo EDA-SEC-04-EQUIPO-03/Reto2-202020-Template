@@ -51,7 +51,7 @@ def initCatalog():
 
 
 def loadMoviesArchivo ():
-    lst = model.loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds) 
+    lst = model.loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",None) 
     print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
     return lst
 
