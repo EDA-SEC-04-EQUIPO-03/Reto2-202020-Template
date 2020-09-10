@@ -49,6 +49,12 @@ def initCatalog():
 #  de datos en los modelos
 # ___________________________________________________
 
+
+def loadMoviesArchivo ():
+    lst = model.loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
+    return lst
+
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
     """
     Carga los datos de los archivos en el modelo
