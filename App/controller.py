@@ -65,8 +65,11 @@ def loadMovies(catalog, smallmoviesfile):
     """
     smallmoviesfile = cf.data_dir + smallmoviesfile
     input_file = csv.DictReader(open(smallmoviesfile))
-    for movie in input_file:
-        model.addMovie(catalog, movie)
+    for movie in input_file: 
+            model.addMovie(catalog, movie)
+            languaje=movie["original_languaje"].split(",") #Obtener idiomas
+            for idioma in languaje:
+                model.addMovie(catalog, idioma.strip(), movie)
 
 
 def loadCasting(catalog, smallcastingfile):
