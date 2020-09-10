@@ -49,30 +49,35 @@ def newCatalog():
     Retorna el catalogo inicializado.
     """
     catalog = {'movies': None,
+               'movieIds': None,
                'original_title': None,
                'release_date': None,
                'vote_average': None,
                'vote_count': None,
                'original_language': None}
 
-    catalog['books'] = lt.newList('SINGLE_LINKED', compareBookIds)
-    catalog['bookIds'] = mp.newMap(200,
+    catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+    catalog['MovieIds'] = mp.newMap(200,
                                    maptype='PROBING',
                                    loadfactor=0.4,
-                                   comparefunction=compareMapBookIds)
-    catalog['authors'] = mp.newMap(200,
+                                   comparefunction=compareMapMovieIds)
+    catalog['original_title'] = mp.newMap(200,
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareAuthorsByName)
-    catalog['tags'] = mp.newMap(1000,
+    catalog['release_date'] = mp.newMap(1000,
                                 maptype='CHAINING',
                                 loadfactor=0.7,
                                 comparefunction=compareTagNames)
-    catalog['tagIds'] = mp.newMap(1000,
+    catalog['vote_average'] = mp.newMap(1000,
                                   maptype='CHAINING',
                                   loadfactor=0.7,
                                   comparefunction=compareTagIds)
-    catalog['years'] = mp.newMap(500,
+    catalog['vote_count'] = mp.newMap(500,
+                                 maptype='CHAINING',
+                                 loadfactor=0.7,
+                                 comparefunction=compareMapYear)
+    catalog['original_languaje'] = mp.newMap(500,
                                  maptype='CHAINING',
                                  loadfactor=0.7,
                                  comparefunction=compareMapYear)
@@ -86,11 +91,240 @@ def newCatalog():
 
 
 
+# def addBook(catalog, book):
+#     """
+#     Esta funcion adiciona un libro a la lista de libros,
+#     adicionalmente lo guarda en un Map usando como llave su Id.
+#     Finalmente crea una entrada en el Map de años, para indicar que este
+#     libro fue publicaco en ese año.
+#     """
+#     lt.addLast(catalog['books'], book)
+#     mp.put(catalog['bookIds'], book['goodreads_book_id'], book)
+#     addBookYear(catalog, book)
+
+
+# def addBookYear(catalog, book):
+#     """
+#     Esta funcion adiciona un libro a la lista de libros que
+#     fueron publicados en un año especifico.
+#     Los años se guardan en un Map, donde la llave es el año
+#     y el valor la lista de libros de ese año.
+#     """
+#     years = catalog['years']
+#     pubyear = book['original_publication_year']
+#     pubyear = int(float(pubyear))
+#     existyear = mp.contains(years, pubyear)
+#     if existyear:
+#         entry = mp.get(years, pubyear)
+#         year = me.getValue(entry)
+#     else:
+#         year = newYear(pubyear)
+#         mp.put(years, pubyear, year)
+#     lt.addLast(year['books'], book)
+
+
+# def newYear(pubyear):
+#     """
+#     Esta funcion crea la estructura de libros asociados
+#     a un año.
+#     """
+#     entry = {'year': "", "books": None}
+#     entry['year'] = pubyear
+#     entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
+#     return entry
+
+
+# def addBookAuthor(catalog, authorname, book):
+#     """
+#     Esta función adiciona un libro a la lista de libros publicados
+#     por un autor.
+#     Cuando se adiciona el libro se actualiza el promedio de dicho autor
+#     """
+#     authors = catalog['authors']
+#     existauthor = mp.contains(authors, authorname)
+#     if existauthor:
+#         entry = mp.get(authors, authorname)
+#         author = me.getValue(entry)
+#     else:
+#         author = newAuthor(authorname)
+#         mp.put(authors, authorname, author)
+#     lt.addLast(author['books'], book)
+
+#     authavg = author['average_rating']
+#     bookavg = book['average_rating']
+#     if (authavg == 0.0):
+#         author['average_rating'] = float(bookavg)
+#     else:
+#         author['average_rating'] = (authavg + float(bookavg)) / 2
+
+
+# def addTag(catalog, tag):
+#     """
+#     Adiciona un tag a la tabla de tags dentro del catalogo
+#     """
+#     newtag = newTagBook(tag['tag_name'], tag['tag_id'])
+#     mp.put(catalog['tags'], tag['tag_name'], newtag)
+#     mp.put(catalog['tagIds'], tag['tag_id'], newtag)
+
+
+# def addBookTag(catalog, tag):
+#     """
+#     Agrega una relación entre un libro y un tag.
+#     Para ello se adiciona el libro a la lista de libros
+#     del tag.
+#     """
+#     bookid = tag['goodreads_book_id']
+#     tagid = tag['tag_id']
+#     entry = mp.get(catalog['tagIds'], tagid)
+
+#     if entry:
+#         tagbook = mp.get(catalog['tags'], me.getValue(entry)['name'])
+#         tagbook['value']['total_books'] += 1
+#         tagbook['value']['count'] += int(tag['count'])
+#         book = mp.get(catalog['bookIds'], bookid)
+#         if book:
+#             lt.addLast(tagbook['value']['books'], book['value'])
+
+
 # ==============================
 # Funciones de consulta
 # ==============================
 
 
+def getMoviesByOriginalTitle(catalog, original_title):
+    """
+    Retorna un autor con sus libros a partir del nombre del autor
+    """
+    title = mp.get(catalog['original_title'], original_title)
+    if author:
+        return me.getValue(title)
+    return None
+
+
+def getBooksByTag(catalog, tagname):
+    """
+    Retornar la lista de libros asociados a un tag
+    """
+    tag = mp.get(catalog['release_date'], tagname)
+    books = None
+    if tag:
+        books = me.getValue(tag)['books']
+    return books
+
+
+def booksSize(catalog):
+    """
+    Número de libros en el catago
+    """
+    return lt.size(catalog['books'])
+
+
+def authorsSize(catalog):
+    """
+    Numero de autores en el catalogo
+    """
+    return mp.size(catalog['authors'])
+
+
+def tagsSize(catalog):
+    """
+    Numero de tags en el catalogo
+    """
+    return mp.size(catalog['tags'])
+
+
+def getBooksByYear(catalog, year):
+    """
+    Retorna los libros publicados en un año
+    """
+    year = mp.get(catalog['years'], year)
+    if year:
+        return me.getValue(year)['books']
+    return None
+
+
+# ==============================
+# Funciones de Comparacion
+# ==============================
+
+
+def compareBookIds(id1, id2):
+    """
+    Compara dos ids de libros
+    """
+    if (id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
+
+
+def compareMapBookIds(id, entry):
+    """
+    Compara dos ids de libros, id es un identificador
+    y entry una pareja llave-valor
+    """
+    identry = me.getKey(entry)
+    if (int(id) == int(identry)):
+        return 0
+    elif (int(id) > int(identry)):
+        return 1
+    else:
+        return -1
+
+
+def compareAuthorsByName(keyname, author):
+    """
+    Compara dos nombres de autor. El primero es una cadena
+    y el segundo un entry de un map
+    """
+    authentry = me.getKey(author)
+    if (keyname == authentry):
+        return 0
+    elif (keyname > authentry):
+        return 1
+    else:
+        return -1
+
+
+def compareTagNames(name, tag):
+    tagentry = me.getKey(tag)
+    if (name == tagentry):
+        return 0
+    elif (name > tagentry):
+        return 1
+    else:
+        return -1
+
+
+def compareTagIds(id, tag):
+    tagentry = me.getKey(tag)
+    if (int(id) == int(tagentry)):
+        return 0
+    elif (int(id) > int(tagentry)):
+        return 1
+    else:
+        return 0
+
+
+def compareMapYear(id, tag):
+    tagentry = me.getKey(tag)
+    if (id == tagentry):
+        return 0
+    elif (id > tagentry):
+        return 1
+    else:
+        return 0
+
+
+def compareYears(year1, year2):
+    if (int(year1) == int(year2)):
+        return 0
+    elif (int(year1) > int(year2)):
+        return 1
+    else:
+        return 0
 
 # ==============================
 # Funciones de Comparacion
