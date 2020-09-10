@@ -89,7 +89,18 @@ def newCatalog():
 
 # Funciones para agregar informacion al catalogo
 
-
+def loadCSVFile (file, cmpfunction):
+    lst=lt.newList("ARRAY_LIST", cmpfunction)
+    dialect = csv.excel()
+    dialect.delimiter=";"
+    try:
+        with open(  cf.data_dir + file, encoding="utf-8") as csvfile:
+            row = csv.DictReader(csvfile, dialect=dialect)
+            for elemento in row: 
+                lt.addLast(lst,elemento)
+    except:
+        print("Hubo un error con la carga del archivo")
+    return lst
 
 # def addBook(catalog, book):
 #     """
