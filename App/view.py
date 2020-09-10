@@ -88,17 +88,17 @@ while True:
     elif int(inputs[0]) == 3:
         number = input("Consultando productoras de cine...: ")
         books = controller.getBooksYear(cont, int(number))
-        printBooksbyYear(books)
+        print BooksbyYear(books)
 
     elif int(inputs[0]) == 4:
         authorname = input("Nombre del autor a buscar: ")
         authorinfo = controller.getBooksByAuthor(cont, authorname)
-        printAuthorData(authorinfo)
+        print AuthorData(authorinfo)
 
     elif int(inputs[0]) == 5:
         label = input("Etiqueta a buscar: ")
         books = controller.getBooksByTag(cont, label)
-        printBooksbyTag(books)
+        print BooksbyTag(books)
     else:
         sys.exit(0)
 sys.exit(0)
