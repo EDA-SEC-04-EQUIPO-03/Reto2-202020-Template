@@ -23,8 +23,7 @@
 import config as cf
 from App import model
 import csv
-
-
+from DISClib.DataStructures import liststructure as ls
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 Existen algunas operaciones en las que se necesita invocar
@@ -49,11 +48,17 @@ def initCatalog():
 #  de datos en los modelos
 # ___________________________________________________
 
+def printUltimoyprim(TAD):
+    lista=[]
+    primis=(ls.firstElement(TAD))
+    ultimis=(ls.lastElement(TAD)) 
+    lista.append(primis)
+    lista.append(ultimis)
+    return lista
 
 def loadMoviesArchivo ():
     lst = model.loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",None) 
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
+    print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
 
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
     """

@@ -23,6 +23,7 @@ import config
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
+from DISClib.DataStructures import liststructure as ls
 assert config
 import config as cf
 import csv
@@ -99,7 +100,7 @@ def loadCSVFile (file, cmpfunction):
         with open(  cf.data_dir + file, encoding="utf-8") as csvfile:
             row = csv.DictReader(csvfile, dialect=dialect)
             for elemento in row: 
-                lt.addLast(lst,elemento)
+                ls.addLast(lst,elemento)
     except:
         print("Hubo un error con la carga del archivo")
     return lst
