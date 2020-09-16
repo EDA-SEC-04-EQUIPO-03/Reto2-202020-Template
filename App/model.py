@@ -217,46 +217,7 @@ def getMoviesByProductionCompanie(catalog, production_companies):
     return None
 
 
-def getBooksByTag(catalog, tagname):
-    """
-    Retornar la lista de libros asociados a un tag
-    """
-    tag = mp.get(catalog['release_date'], tagname)
-    books = None
-    if tag:
-        books = me.getValue(tag)['books']
-    return books
 
-
-def booksSize(catalog):
-    """
-    Número de libros en el catago
-    """
-    return lt.size(catalog['books'])
-
-
-def authorsSize(catalog):
-    """
-    Numero de autores en el catalogo
-    """
-    return mp.size(catalog['authors'])
-
-
-def tagsSize(catalog):
-    """
-    Numero de tags en el catalogo
-    """
-    return mp.size(catalog['tags'])
-
-
-def getBooksByYear(catalog, year):
-    """
-    Retorna los libros publicados en un año
-    """
-    year = mp.get(catalog['years'], year)
-    if year:
-        return me.getValue(year)['books']
-    return None
 
 
 # ==============================

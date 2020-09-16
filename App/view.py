@@ -87,7 +87,7 @@ while True:
 
     elif int(inputs[0]) == 3:
         number = input("Consultando productoras de cine...: ")
-        books = controller.getBooksYear(cont, int(number))
+        movies = controller.getBooksYear(cont, int(number))
         print BooksbyYear(books)
         lista_de_dic=controller.printUltimoyprim(books)
         i=0
