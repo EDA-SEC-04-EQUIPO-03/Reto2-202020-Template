@@ -115,4 +115,5 @@ def getMoviesByProductionCompanie(catalog, production_companies):
 #def getMoviesByCountry(catalog, country):
     """
     #countryinfo = model.getMoviesByCountry(catalog, country)
-    return country
+    return country 
+    """
