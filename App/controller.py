@@ -96,19 +96,23 @@ def loadCasting(catalog, smallcastingfile):
 # ___________________________________________________
 #  Funciones para consultas
 # ____________________________________________
-def moviesSize(catalog):
+
+def getMoviesByProductionCompanie(catalog, production_companies):
+    "Retorna las películas según una productora dada"
+    production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
+    return production_info
+
+#def moviesSize(catalog):
     """Numero de libros leido
     """
-    return model.moviesSize(catalog)
+   # return model.moviesSize(catalog)
 
-def genresSize(catalog):
+#def genresSize(catalog):
     """Numero de libros leido
     """
-    return model.genresSize(catalog)
+   # return model.genresSize(catalog)
 
-def getMoviesByCountry(catalog, country):
+#def getMoviesByCountry(catalog, country):
     """
-    Retorna los libros de un autor
-    """
-    countryinfo = model.getMoviesByCountry(catalog, country)
+    #countryinfo = model.getMoviesByCountry(catalog, country)
     return country
