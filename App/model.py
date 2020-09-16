@@ -61,10 +61,10 @@ def newCatalog():
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareMapMovieIds)
-    catalog['original_title'] = mp.newMap(200,
+    catalog['production_companies'] = mp.newMap(4000,
                                    maptype='PROBING',
                                    loadfactor=0.4,
-                                   comparefunction=compareAuthorsByName)
+                                   comparefunction=compareProductionCompanies)
     catalog['release_date'] = mp.newMap(1000,
                                 maptype='CHAINING',
                                 loadfactor=0.7,
@@ -83,6 +83,8 @@ def newCatalog():
                                  comparefunction=compareMapYear)
 
     return catalog
+
+
 
 
 
@@ -191,13 +193,13 @@ def newCatalog():
 # ==============================
 
 
-def getMoviesByOriginalTitle(catalog, original_title):
+def getMoviesByProductionCompanie(catalog, production_companies):
     """
     Retorna un autor con sus libros a partir del nombre del autor
     """
-    title = mp.get(catalog['original_title'], original_title)
-    if author:
-        return me.getValue(title)
+    production = mp.get(catalog['production_companies'], production_companies)
+    if production:
+        return me.getValue(production)
     return None
 
 
@@ -248,19 +250,19 @@ def getBooksByYear(catalog, year):
 # ==============================
 
 
-def compareBookIds(id1, id2):
+def compareProductionCompanies(pc1, pc2):
     """
-    Compara dos ids de libros
+    Compara dos prductoras de peliculas
     """
-    if (id1 == id2):
+    if (pc1 == pc2):
         return 0
-    elif id1 > id2:
+    elif pc1 > pc2:
         return 1
     else:
         return -1
 
 
-def compareMapBookIds(id, entry):
+def compareMapMovieIds(id, entry):
     """
     Compara dos ids de libros, id es un identificador
     y entry una pareja llave-valor
