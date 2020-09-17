@@ -41,6 +41,7 @@ def initCatalog():
     """
     # catalog es utilizado para interactuar con el modelo
     catalog = model.newCatalog()
+    print("Carga completa")
     return catalog
 
 # ___________________________________________________
@@ -57,7 +58,7 @@ def printUltimoyprim(TAD):
     return lista
 
 def loadMoviesArchivo ():
-    lst = model.loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",None) 
+    lst = model.loadCSVFile("Data/SmallMoviesDetailsCleaned.csv",None) 
     print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
 
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
@@ -78,9 +79,8 @@ def loadMovies(catalog, smallmoviesfile):
     input_file = csv.DictReader(open(smallmoviesfile))
     for movie in input_file: 
             model.addMovie(catalog, movie)
-            languaje=movie["original_languaje"].split(",") #Obtener idiomas
-            for idioma in languaje:
-                model.addMovie(catalog, idioma.strip(), movie)
+            model.addMovieids(catalog, movie)
+            model.addProducer(catalog, movie)
 
 
 def loadCasting(catalog, smallcastingfile):
