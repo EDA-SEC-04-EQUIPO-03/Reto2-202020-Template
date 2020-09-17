@@ -79,12 +79,8 @@ def loadMovies(catalog, smallmoviesfile):
     input_file = csv.DictReader(open(smallmoviesfile))
     for movie in input_file: 
             model.addMovie(catalog, movie)
-            ids=movie["id"].split(",") #Obtener ids
-            producers=movie["production_companies"].split(",")
-            for ID in ids:
-                model.addMovieids(catalog, ID.strip(), movie)
-            for proc in producers:
-                model.addProducer(catalog, proc.strip(), movie)
+            model.addMovieids(catalog, movie)
+            model.addProducer(catalog, movie)
 
 
 def loadCasting(catalog, smallcastingfile):

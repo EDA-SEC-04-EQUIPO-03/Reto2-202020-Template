@@ -98,14 +98,33 @@ def addMovie(catalog, movie):
     libro fue publicaco en ese año.
     """
     lt.addLast(catalog['movies'], movie)
-    mp.put(catalog['movieIds'], movie['imdb_id'], movie)
-    addProducer(catalog, movie)
+    
 
 
 #def addReleaseDate(catalog, movie):
 #def addVoteAVG(catalog, movie):
 #def addVoteCount(catalog, movie):
 #def addLanguaje(catalog, movie):
+
+def addMoviesids(catalog, movie):
+    ids = catalog['movieIds']
+    movie_id = movie['movieIds']
+    existid = mp.contains(ids, movie_id)
+    if existid:
+        entry = mp.get(ids, movie_id)
+        id_m = me.getValue(entry)
+    else:
+        id_m = newId(movie_id)
+        mp.put(ids, movie_id, id_m)
+    lt.addLast(id_m['movies'], movie)
+
+def newId(movie_id):
+   entry = {'id': "", "movies": None}
+   entry['id'] = movie_id
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+   return entry
+
+
 
 def addProducer(catalog, movie):
     """
@@ -134,6 +153,8 @@ def newProducer(movie_product):
    entry['producer'] = movie_product
    entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
    return entry
+
+
 
 
 # def addBookAuthor(catalog, authorname, book):
