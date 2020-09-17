@@ -57,9 +57,9 @@ def printUltimoyprim(TAD):
     lista.append(ultimis)
     return lista
 
-def loadMoviesArchivo ():
-    lst = model.loadCSVFile("SmallMoviesDetailsCleaned.csv",None) 
-    print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
+#def loadMoviesArchivo ():
+   #lst = model.loadCSVFile("SmallMoviesDetailsCleaned.csv",None) 
+   # print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
 
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
     """
@@ -102,10 +102,10 @@ def getMoviesByProductionCompanie(catalog, production_companies):
     production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
     return production_info
 
-#def moviesSize(catalog):
+def moviesSize(catalog):
     """Numero de libros leido
     """
-   # return model.moviesSize(catalog)
+    return model.moviesSize(catalog)
 
 #def genresSize(catalog):
     """Numero de libros leido
