@@ -235,7 +235,16 @@ def compareProductionCompanies(pc1, pc2):
         return 1
     else:
         return -1
-
+def compareMovieIds(id1, id2):
+    """
+    Compara dos ids de peliculas
+    """
+    if (id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
 
 def compareMapMovieIds(id, entry):
     """
