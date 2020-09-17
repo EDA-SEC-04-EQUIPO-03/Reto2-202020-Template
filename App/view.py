@@ -83,7 +83,6 @@ while True:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         print(movies)
-            i+=1
     else:
         sys.exit(0)
 sys.exit(0)
