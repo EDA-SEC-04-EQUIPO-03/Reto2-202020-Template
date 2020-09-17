@@ -97,6 +97,55 @@ def addMovie(catalog, movie):
     """
     lt.addLast(catalog['movies'], movie)
 
+def addMoviesids(catalog, movie):
+    ids = catalog['movieIds']
+    movie_id = movie['movieIds']
+    existid = mp.contains(ids, movie_id)
+    if existid:
+        entry = mp.get(ids, movie_id)
+        id_m = me.getValue(entry)
+    else:
+        id_m = newId(movie_id)
+        mp.put(ids, movie_id, id_m)
+    lt.addLast(id_m['movies'], movie)
+
+def newId(movie_id):
+   entry = {'id': "", "movies": None}
+   entry['id'] = movie_id
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+   return entry
+
+
+
+def addProducer(catalog, movie):
+    """
+    Esta funcion adiciona un libro a la lista de libros que
+    fueron publicados en un año especifico.
+    Los años se guardan en un Map, donde la llave es el año
+    y el valor la lista de libros de ese año.
+    """
+    producers = catalog['production_companies']
+    movie_product = movie['production_companies']
+    existprodu = mp.contains(producers, movie_product)
+    if existprodu:
+        entry = mp.get(producers, movie_product)
+        producer = me.getValue(entry)
+    else:
+        producer = newProducer(movie_product)
+        mp.put(producers, movie_product, producer)
+    lt.addLast(producer['movies'], movie)
+
+def newProducer(movie_product):
+   """
+   Esta funcion crea la estructura de libros asociados
+   a un año.
+   """
+   entry = {'producer': "", "movies": None}
+   entry['producer'] = movie_product
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
+   return entry
+
+
 # def addBook(catalog, book):
 #     """
 #     Esta funcion adiciona un libro a la lista de libros,
