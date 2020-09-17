@@ -63,10 +63,6 @@ def printMenu():
     print("1- Inicializar Catálogo de películas")
     print("2- Cargar información en el catálogo")
     print("3- Descubrir productoras de cine")
-    print("4- Conocer un director")
-    print("5- Conocer un actor")
-    print("6- Entender un género cinematográfico")
-    print("7- Consultar películas por país")
     print("0- Salir")
 
 while True:
@@ -87,39 +83,6 @@ while True:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         print(movies)
-        lista_de_dic=controller.printUltimoyprim(movies)
-        i=0
-        while i<5:
-            for filtro in lista_de_dic:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
-
-    elif int(inputs[0]) == 4:
-        authorname = input("Nombre del autor a buscar: ")
-        authorinfo = controller.getBooksByAuthor(cont, authorname)
-        print(authorinfo)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
-
-    elif int(inputs[0]) == 5:
-        label = input("Etiqueta a buscar: ")
-        books = controller.getBooksByTag(cont, label)
-        print(books)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
             i+=1
     else:
         sys.exit(0)
