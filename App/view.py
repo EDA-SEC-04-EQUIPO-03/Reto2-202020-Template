@@ -92,7 +92,7 @@ while True:
         lista_de_dic=controller.printUltimoyprim(movies)
         i=0
         while i<5:
-            for filtro in lista:
+            for filtro in lista_de_dic:
                 print(filtro)
                 print(lista_de_dic[0[filtro]])
                 print(lista_de_dic[1[filtro]])
