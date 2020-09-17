@@ -89,7 +89,7 @@ while True:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         print(movies)
-        lista_de_dic=controller.printUltimoyprim(books)
+        lista_de_dic=controller.printUltimoyprim(movies)
         i=0
         while i<5:
             for filtro in lista:

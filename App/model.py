@@ -59,8 +59,8 @@ def newCatalog():
                'vote_count': None,
                'original_language': None}
 
-    catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['MovieIds'] = mp.newMap(200,
+    catalog['movies'] = lt.newList('SINGLE_LINKED', None)
+    catalog['movieIds'] = mp.newMap(4000,
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareMapMovieIds)
@@ -68,23 +68,6 @@ def newCatalog():
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareProductionCompanies)
-    catalog['release_date'] = mp.newMap(1000,
-                                maptype='CHAINING',
-                                loadfactor=0.7,
-                                comparefunction=compareTagNames)
-    catalog['vote_average'] = mp.newMap(1000,
-                                  maptype='CHAINING',
-                                  loadfactor=0.7,
-                                  comparefunction=compareTagIds)
-    catalog['vote_count'] = mp.newMap(500,
-                                 maptype='CHAINING',
-                                 loadfactor=0.7,
-                                 comparefunction=compareMapYear)
-    catalog['original_languaje'] = mp.newMap(500,
-                                 maptype='CHAINING',
-                                 loadfactor=0.7,
-                                 comparefunction=compareMapYear)
-
     return catalog
 
 
@@ -107,47 +90,50 @@ def loadCSVFile (file, cmpfunction):
         print("Hubo un error con la carga del archivo")
     return lst
 
-# def addBook(catalog, book):
-#     """
-#     Esta funcion adiciona un libro a la lista de libros,
-#     adicionalmente lo guarda en un Map usando como llave su Id.
-#     Finalmente crea una entrada en el Map de años, para indicar que este
-#     libro fue publicaco en ese año.
-#     """
-#     lt.addLast(catalog['books'], book)
-#     mp.put(catalog['bookIds'], book['goodreads_book_id'], book)
-#     addBookYear(catalog, book)
+def addMovie(catalog, movie):
+    """
+    Esta funcion adiciona un libro a la lista de libros,
+    adicionalmente lo guarda en un Map usando como llave su Id.
+    Finalmente crea una entrada en el Map de años, para indicar que este
+    libro fue publicaco en ese año.
+    """
+    lt.addLast(catalog['movies'], movie)
+    mp.put(catalog['movieIds'], movie['imdb_id'], movie)
+    addProducer(catalog, movie)
 
 
-# def addBookYear(catalog, book):
-#     """
-#     Esta funcion adiciona un libro a la lista de libros que
-#     fueron publicados en un año especifico.
-#     Los años se guardan en un Map, donde la llave es el año
-#     y el valor la lista de libros de ese año.
-#     """
-#     years = catalog['years']
-#     pubyear = book['original_publication_year']
-#     pubyear = int(float(pubyear))
-#     existyear = mp.contains(years, pubyear)
-#     if existyear:
-#         entry = mp.get(years, pubyear)
-#         year = me.getValue(entry)
-#     else:
-#         year = newYear(pubyear)
-#         mp.put(years, pubyear, year)
-#     lt.addLast(year['books'], book)
+#def addReleaseDate(catalog, movie):
+#def addVoteAVG(catalog, movie):
+#def addVoteCount(catalog, movie):
+#def addLanguaje(catalog, movie):
 
+def addProducer(catalog, movie):
+    """
+    Esta funcion adiciona un libro a la lista de libros que
+    fueron publicados en un año especifico.
+    Los años se guardan en un Map, donde la llave es el año
+    y el valor la lista de libros de ese año.
+    """
+    producers = catalog['production_companies']
+    movie_product = movie['production_companies']
+    existprodu = mp.contains(producers, movie_product)
+    if existprodu:
+        entry = mp.get(producers, movie_product)
+        producer = me.getValue(entry)
+    else:
+        producer = newProducer(movie_product)
+        mp.put(producers, movie_product, producer)
+    lt.addLast(producer['movies'], movie)
 
-# def newYear(pubyear):
-#     """
-#     Esta funcion crea la estructura de libros asociados
-#     a un año.
-#     """
-#     entry = {'year': "", "books": None}
-#     entry['year'] = pubyear
-#     entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
-#     return entry
+def newProducer(movie_product):
+   """
+   Esta funcion crea la estructura de libros asociados
+   a un año.
+   """
+   entry = {'producer': "", "movies": None}
+   entry['producer'] = movie_product
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
+   return entry
 
 
 # def addBookAuthor(catalog, authorname, book):
