@@ -88,6 +88,15 @@ def newCatalog():
         #print("Hubo un error con la carga del archivo")
     #return lst
 
+def addMovie(catalog, movie):
+    """
+    Esta funcion adiciona un libro a la lista de libros,
+    adicionalmente lo guarda en un Map usando como llave su Id.
+    Finalmente crea una entrada en el Map de años, para indicar que este
+    libro fue publicaco en ese año.
+    """
+    lt.addLast(catalog['movies'], movie)
+
 # def addBook(catalog, book):
 #     """
 #     Esta funcion adiciona un libro a la lista de libros,
