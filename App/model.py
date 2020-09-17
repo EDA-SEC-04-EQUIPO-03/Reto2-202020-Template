@@ -99,7 +99,7 @@ def addMovie(catalog, movie):
 
 def addMoviesids(catalog, movie):
     ids = catalog['movieIds']
-    movie_id = movie['movieIds']
+    movie_id = movie['id']
     existid = mp.contains(ids, movie_id)
     if existid:
         entry = mp.get(ids, movie_id)
