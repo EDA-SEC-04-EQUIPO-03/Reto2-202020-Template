@@ -81,7 +81,7 @@ def loadMovies(catalog, smallmoviesfile):
     input_file = csv.DictReader(open(smallmoviesfile,encoding='utf-8-sig'),dialect=dialect)
     for movie in input_file: 
             model.addMovie(catalog, movie)
-            model.addMoviesids(catalog, movie)
+            model.addMovieids(catalog, movie)
             model.addProducer(catalog, movie)
 
 
