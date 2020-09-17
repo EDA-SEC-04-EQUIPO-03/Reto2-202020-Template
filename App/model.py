@@ -97,7 +97,7 @@ def addMovie(catalog, movie):
     """
     lt.addLast(catalog['movies'], movie)
 
-def addMoviesids(catalog, movie):
+def addMovieids(catalog, movie):
     ids = catalog['movieIds']
     movie_id = movie['movieIds']
     existid = mp.contains(ids, movie_id)
