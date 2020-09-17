@@ -78,13 +78,17 @@ def loadMovies(catalog, smallmoviesfile):
     smallmoviesfile = cf.data_dir + smallmoviesfile
     dialect = csv.excel()
     dialect.delimiter=";"
-    input_file = csv.DictReader(open(smallmoviesfile,encoding='utf-8-sig'),dialect=dialect)
-    for movie in input_file: 
-            model.addMovie(catalog, movie)
-            model.addMovieids(catalog, movie)
-            model.addProducer(catalog, movie)
-
-
+    try:
+        with open(smallmoviesfile,encoding="utf-8") as csvfile:
+            movie=csv.DictReader(csvfile, dialect=dialect)
+            for m in movie:
+                model.addMovie(catalog, m)
+                model.addMovieids(catalog, m)
+                model.addProducer(catalog, m)
+    except:
+        pass
+    
+    
 def loadCasting(catalog, smallcastingfile):
     """
     Carga en el catalogo los tags a partir de la informacion
