@@ -37,10 +37,10 @@ operación seleccionada.
 # ___________________________________________________
 #  Ruta a los archivos
 # ___________________________________________________
-smallmoviesfile= "Data/SmallMoviesDetailsCleaned.csv"
-smallcastingfile= "Data/MoviesCastingRaw-small.csv"
-moviesfile= "Data/AllMoviesDetailsCleaned.csv"
-castingfile= "Data/AllMoviesCastingRaw.csv"
+smallmoviesfile= "Movies/SmallMoviesDetailsCleaned.csv"
+smallcastingfile= "Movies/MoviesCastingRaw-small.csv"
+moviesfile= "Movies/AllMoviesDetailsCleaned.csv"
+castingfile= "Movies/1AllMoviesCastingRaw.csv"
 
 
 
@@ -69,7 +69,6 @@ def printMenu():
     print("7- Consultar películas por país")
     print("0- Salir")
 
-filtro=["original_title", "release_data", "vote_average", "vote_count", "original_language"]
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
@@ -83,7 +82,6 @@ while True:
         controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
         controller.loadMoviesArchivo() 
         print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
-        print('Géneros cargados: ' + str(controller.genresSize(cont)))
 
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
