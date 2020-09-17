@@ -79,7 +79,7 @@ def loadMovies(catalog, smallmoviesfile):
     dialect = csv.excel()
     dialect.delimiter=";"
     try:
-        with open(smallmoviesfile,encoding="utf-8") as csvfile:
+        with open(smallmoviesfile,encoding="utf-8-sig") as csvfile:
             movie=csv.DictReader(csvfile, dialect=dialect)
             for m in movie:
                 model.addMovie(catalog, m)
