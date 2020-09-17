@@ -57,7 +57,7 @@ def newCatalog():
                }
 
     catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['MovieIds'] = mp.newMap(200,
+    catalog['movieIds'] = mp.newMap(200,
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareMapMovieIds)
@@ -96,6 +96,7 @@ def addMovie(catalog, movie):
     libro fue publicaco en ese año.
     """
     lt.addLast(catalog['movies'], movie)
+    mp.put(catalog['movieIds'], movie['id'], movie)
 
 def addMovieids(catalog, movie):
     ids = catalog['movieIds']
@@ -107,7 +108,7 @@ def addMovieids(catalog, movie):
     else:
         id_m = newId(movie_id)
         mp.put(ids, movie_id, id_m)
-    lt.addLast(id_m['movies'], movie)
+    
 
 def newId(movie_id):
    entry = {'id': "", "movies": None}
@@ -133,7 +134,7 @@ def addProducer(catalog, movie):
     else:
         producer = newProducer(movie_product)
         mp.put(producers, movie_product, producer)
-    lt.addLast(producer['movies'], movie)
+
 
 def newProducer(movie_product):
    """
@@ -264,13 +265,14 @@ def getMoviesByProductionCompanie(catalog, production_companies):
 # ==============================
 
 
-def compareProductionCompanies(pc1, pc2):
+def compareProductionCompanies(company, entry):
     """
     Compara dos prductoras de peliculas
     """
-    if (pc1 == pc2):
+    companyentry = me.getKey(entry)
+    if (company == companyentry):
         return 0
-    elif pc1 > pc2:
+    elif (company > companyentry):
         return 1
     else:
         return -1
