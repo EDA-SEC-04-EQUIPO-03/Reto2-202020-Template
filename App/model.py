@@ -51,16 +51,23 @@ def newCatalog():
 
     Retorna el catalogo inicializado.
     """
-    catalog = {'movies': None,
-               'movieIds': None,
-               'production_companies': None,
+    catalog = {'movies1': None,
+               'movies2': None,
+               'moviesID1': None,
+               'moviesID2': None,
+               'production_companies': None
                }
 
-    catalog['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['movieIds'] = mp.newMap(200,
-                                   maptype='PROBING',
-                                   loadfactor=0.4,
-                                   comparefunction=compareMapMovieIds)
+    catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+    catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+    catalog['moviesID1'] = mp.newMap(cantidad,
+                                maptype='CHAINING',
+                                loadfactor=factor_de_carga,
+                                comparefunction=compareMapMoviesIds)
+    catalog['moviesID2'] = mp.newMap(cantidad,
+                                   maptype='CHAINING',
+                                   loadfactor=factor_de_carga,
+                                   comparefunction=compareMapMoviesIds)
     catalog['production_companies'] = mp.newMap(4000,
                                    maptype='PROBING',
                                    loadfactor=0.4,
@@ -88,45 +95,20 @@ def newCatalog():
         #print("Hubo un error con la carga del archivo")
     #return lst
 
-def addMovie(catalog, movie):
-    """
-    Esta funcion adiciona un libro a la lista de libros,
-    adicionalmente lo guarda en un Map usando como llave su Id.
-    Finalmente crea una entrada en el Map de años, para indicar que este
-    libro fue publicaco en ese año.
-    """
-    lt.addLast(catalog['movies'], movie)
-    mp.put(catalog['movieIds'], movie['id'], movie)
+def addMovie1(catalog, movie):
+    lt.addLast(catalog['movies1'], movie)
+    mp.put(catalog['movieID1'], movie['id'], movie)
 
-def addMovieids(catalog, movie):
-    ids = catalog['movieIds']
-    movie_id = movie['id']
-    existid = mp.contains(ids, movie_id)
-    if existid:
-        entry = mp.get(ids, movie_id)
-        id_m = me.getValue(entry)
-    else:
-        id_m = newId(movie_id)
-        mp.put(ids, movie_id, id_m)
-    
-
-def newId(movie_id):
-   entry = {'id': "", "movies": None}
-   entry['id'] = movie_id
-   entry['movies'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-   return entry
+def addMovie2(catalog, movie):
+    lt.addLast(catalog['movies2'], movie)
+    mp.put(catalog['movieID2'], movie['id'], movie)
+    producer_name=movie["production_companies"].split(",")
+    for producer in producer_name:
+        addMovieByProducer(catalog, movie, producer)
 
 
-
-def addProducer(catalog, movie):
-    """
-    Esta funcion adiciona un libro a la lista de libros que
-    fueron publicados en un año especifico.
-    Los años se guardan en un Map, donde la llave es el año
-    y el valor la lista de libros de ese año.
-    """
+def addMovieByProducer(catalog, movie,movie_product):
     producers = catalog['production_companies']
-    movie_product = movie['production_companies']
     existprodu = mp.contains(producers, movie_product)
     if existprodu:
         entry = mp.get(producers, movie_product)
@@ -134,18 +116,21 @@ def addProducer(catalog, movie):
     else:
         producer = newProducer(movie_product)
         mp.put(producers, movie_product, producer)
-
-
+    lt.addLast(producer['movies'], movie)
+    
+        
 def newProducer(movie_product):
-   """
-   Esta funcion crea la estructura de libros asociados
-   a un año.
-   """
    entry = {'producer': "", "movies": None}
    entry['producer'] = movie_product
    entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
    return entry
 
+def compareProductionCompanies(company, entry):
+    ret=0
+    compa = me.getKey(entry)
+    if (producer > compa):
+        ret=1
+    return ret
 
 # def addBook(catalog, book):
 #     """
