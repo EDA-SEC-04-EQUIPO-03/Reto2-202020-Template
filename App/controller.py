@@ -115,18 +115,49 @@ def getMoviesByProductionCompanie(catalog, production_companies):
     production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
     return production_info
 
-def moviesSize(catalog):
-    """Numero de libros leido
-    """
-    return model.moviesSize(catalog)
+def moviesDetallesSize(catalog):
+    return model.movies1Size(catalog)
 
-#def genresSize(catalog):
-    """Numero de libros leido
-    """
-   # return model.genresSize(catalog)
+def moviesCastingSize(catalog):
+    return model.movies2Size(catalog)
 
-#def getMoviesByCountry(catalog, country):
-    """
-    #countryinfo = model.getMoviesByCountry(catalog, country)
-    return country 
-    """
+def moviesIdsSize(catalog):
+    return model.MoviesIdsSize(catalog)
+
+def actorsSize(catalog):
+    return model.actorsSize(catalog)
+
+def genresSize(catalog):
+    return model.genresSize(catalog)
+def productionCompaniesSize(catalog):
+    return model.productionCompaniesSize(catalog)
+
+def countriesSize(catalog):
+    return model.countriesSize(catalog)
+
+def voteAverageSize(catalog):
+    return model.voteAverageSize(catalog)
+
+def voteCountSize(catalog):
+    return model.voteCountSize(catalog)
+
+def getMoviesByDirector(catalog):
+    return model.moviesByDirector(catalog)
+
+def getMoviesByActor(catalog):
+    return model.moviesByActor(catalog)
+
+def getMoviesByProductionCompanies(catalog):
+    return model.moviesByProductionCompany(catalog)
+
+def getMoviesByCountry(catalog):
+    return model.moviesByCountry(catalog)
+
+def getMoviesByGenre(catalog):
+    return model.moviesByGenre(catalog)
+
+def descubrirProductorasDeCine(catalog, nameCompany):
+    return model.descubrirProductorasDeCine(catalog, nameCompany)
+
+
+

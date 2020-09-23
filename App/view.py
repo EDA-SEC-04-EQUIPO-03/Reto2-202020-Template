@@ -81,10 +81,13 @@ while True:
         print("Cargando información de los archivos ....")
         controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
         controller.loadMoviesArchivo() 
-        print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
-
+        t1_start = process_time()
+        print('Peliculas (Details) cargadas: ' + str(controller.movies1Size(cont)))
+        print('Peliculas (CastingRaw) cargadas: ' + str(controller.movies2Size(cont)))
+        t1_stop = process_time() #tiempo final
     elif int(inputs[0]) == 3:
-        nombre = input("Consultando productoras de cine...: ")
+        t1_start = process_time()
+        nombre = input("Digite el nombre de la compañia:")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         print(movies)
 
