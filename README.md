@@ -1,5 +1,10 @@
 #ISIS1225 - Estructura de un proyecto
 
+Integragntes: 
+Juan Pablo Lora Hernández- 202012524 - j.lora@uniandes.edu.co 
+Juan Sebastián Pinzón Sampedro - 202013144 - j.pinzons@uniandes.edu.co 
+Cristian David Caro Blanco - 202011710 - c.caro@uniandes.edu.co
+
 Este proyecto busca mostrar una posible forma de organizar el código que se va a desarrollar en los proyectos del curso.
 
 Esta organización es una sugerencia que puede ser adaptada a  las necesidades y gustos de cada persona.

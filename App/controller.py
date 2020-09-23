@@ -23,8 +23,7 @@
 import config as cf
 from App import model
 import csv
-
-
+from DISClib.DataStructures import liststructure as ls
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 Existen algunas operaciones en las que se necesita invocar
@@ -42,6 +41,7 @@ def initCatalog():
     """
     # catalog es utilizado para interactuar con el modelo
     catalog = model.newCatalog()
+    print("Carga completa")
     return catalog
 
 # ___________________________________________________
@@ -49,52 +49,84 @@ def initCatalog():
 #  de datos en los modelos
 # ___________________________________________________
 
+def printUltimoyprim(TAD):
+    lista=[]
+    primis=(ls.firstElement(TAD))
+    ultimis=(ls.lastElement(TAD)) 
+    lista.append(primis)
+    lista.append(ultimis)
+    return lista
+
+#def loadMoviesArchivo ():
+   #lst = model.loadCSVFile("SmallMoviesDetailsCleaned.csv",None) 
+   # print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
+
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
-    """
-    Carga los datos de los archivos en el modelo
-    """
+
     loadMovies(catalog, smallmoviesfile)
     loadCasting(catalog, smallcastingfile)
     
-def loadMovies(catalog, smallmoviesfile):
-    """
-    Carga cada una de las lineas del archivo de libros.
-    - Se agrega cada libro al catalogo de libros
-    - Por cada libro se encuentran sus autores y por cada
-      autor, se crea una lista con sus libros
-    """
-    smallmoviesfile = cf.data_dir + smallmoviesfile
-    input_file = csv.DictReader(open(smallmoviesfile))
-    for movie in input_file:
-        model.addMovie(catalog, movie)
-
-
 def loadCasting(catalog, smallcastingfile):
+    """
+    Carga cada una de las lineas del archivo de movies.
+    - Se agrega cada movie al catalogo de movies
+    - Por cada movie se encuentra su autor y por cada
+      autor, se crea una lista con sus movies   
+    """
+    smallcastingfile = cf.data_dir + smallcastingfile
+    dialect = csv.excel()
+    dialect.delimiter=";"
+    movie=csv.DictReader(open(smallcastingfile, encoding='utf-8-sig'),dialect=dialect)
+    for m in movie:
+        model.addMovie1(catalog, m)
+        lista_actors=[]
+        lista_actors.append(m["actor1_name"])
+        lista_actors.append(m["actor2_name"])
+        lista_actors.append(m["actor3_name"])
+        lista_actors.append(m["actor4_name"])
+        lista_actors.append(m["actor5_name"])
+        for actor in lista_actors:
+            model.addMovieByAutor(catalog, actor.strip(), m)
+        director=m["director_name"]
+        model.addMovieByDirector(catalog, director.strip(), m)
+    
+def loadMovies(catalog, smallmoviesfile):
     """
     Carga en el catalogo los tags a partir de la informacion
     del archivo de etiquetas
     """
-    smallcastingfile = cf.data_dir + smallcastingfile
-    input_file = csv.DictReader(open(smallcastingfile))
-    for cast in input_file:
-        model.addCast(catalog, cast)
+    smallmoviesfile = cf.data_dir + smallmoviesfile
+    dialect = csv.excel()
+    dialect.delimiter=";"
+    movie=csv.DictReader(open(smallmoviesfile, encoding='utf-8-sig'),dialect=dialect)
+    for m in movie:
+        model.addMovie2(catalog, m)
+        companion=m["production_companies"].split(",")
+        for cada_companion in companion:
+            model.addMovieByProducer(catalog, m, cada_companion)
+        # genero y paizez
 
 # ___________________________________________________
 #  Funciones para consultas
 # ____________________________________________
+
+def getMoviesByProductionCompanie(catalog, production_companies):
+    "Retorna las películas según una productora dada"
+    production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
+    return production_info
+
 def moviesSize(catalog):
     """Numero de libros leido
     """
     return model.moviesSize(catalog)
 
-def genresSize(catalog):
+#def genresSize(catalog):
     """Numero de libros leido
     """
-    return model.genresSize(catalog)
+   # return model.genresSize(catalog)
 
-def getMoviesByCountry(catalog, country):
+#def getMoviesByCountry(catalog, country):
     """
-    Retorna los libros de un autor
+    #countryinfo = model.getMoviesByCountry(catalog, country)
+    return country 
     """
-    countryinfo = model.getMoviesByCountry(catalog, country)
-    return country
