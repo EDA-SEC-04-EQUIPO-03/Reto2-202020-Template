@@ -86,9 +86,9 @@ def loadCasting(catalog, smallcastingfile):
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
         for actor in lista_actors:
-            model.addMovieByAutor(catalog, actor.strip(), m)
+            model.addMovieByAutor(catalog,m, actor.strip())
         director=m["director_name"]
-        model.addMovieByDirector(catalog, director.strip(), m)
+        model.addMovieByDirector(catalog,m, director.strip())
     
 def loadMovies(catalog, smallmoviesfile):
     """
