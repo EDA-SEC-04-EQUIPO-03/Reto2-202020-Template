@@ -93,15 +93,7 @@ while True:
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        print(movies)
-        lista_de_dic=controller.printUltimoyprim(movies)
-        i=0
-        while i<5:
-            for filtro in lista_de_dic:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
+        PrintRQ1(movies)
 
     elif int(inputs[0]) == 4:
         authorname = input("Nombre del autor a buscar: ")

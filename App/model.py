@@ -143,11 +143,17 @@ def compareProductionCompanies(company, entry):
 
 
 
-    
+
 def CastingSize(catalog):
     return lt.size(catalog[''])
 def DetailsSize(catalog):
     return lt.size(catalog[''])
+
+def getMoviesByCompany(catalog, companyname):
+    company = mp.get(catalog['production_companies'], companyname)
+    if company:
+        return me.getValue(company)
+    return None
 
 # def addBook(catalog, book):
 #     """

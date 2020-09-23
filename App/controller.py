@@ -110,9 +110,9 @@ def loadMovies(catalog, smallmoviesfile):
 #  Funciones para consultas
 # ____________________________________________
 
-def getMoviesByProductionCompanie(catalog, production_companies):
+def getMoviesByProductionCompanie(catalog, production_company):
     "Retorna las películas según una productora dada"
-    production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
+    production_info=model.getMoviesByCompany(catalog, production_company)
     return production_info
 
 def moviesSize(catalog):
