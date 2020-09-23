@@ -41,7 +41,7 @@ def initCatalog():
     """
     # catalog es utilizado para interactuar con el modelo
     catalog = model.newCatalog()
-    print("Carga completa")
+    print("Catalogo Creado !")
     return catalog
 
 # ___________________________________________________
