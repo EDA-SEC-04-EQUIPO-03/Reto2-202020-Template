@@ -75,7 +75,7 @@ def newCatalog():
     catolog['directors'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
-                                   comparefunction=compareMapMoviesIds)
+                                   comparefunction=compareDirectors)
     catolog['actors'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
@@ -129,7 +129,26 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
 
-def addMoviesByActor(catalog, movie)
+def addMovieByDirector(catalog, movie, movie_director):
+    directors = catalog['directors']
+    checkDirector = mp.contains(directors, movie_director)
+    if checkDirector:
+        entry = mp.get(directors, movie_director)
+        director = me.getValue(entry)
+    else:
+        director = newDirector(movie_director)
+        mp.put(directors, movie_director, director)
+    lt.addLast(director['movies'], movie)
+
+    promedioporpeli = movie['vote_average']
+    if director["average"][0]==0.0:
+        director["average"][0]=promedioporpeli
+        director["cantidad"] = 1
+    else:
+        director["average"][0]= director["average"][0] + promedioporpeli
+        director["cantidad"] += 1
+    director["average"][1]=director["average"][0] / director["cantidad"]
+
     
 def newProducer(movie_product):
    entry = {'producer': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
@@ -137,10 +156,23 @@ def newProducer(movie_product):
    entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
    return entry
 
+def newDirector(movie_director):
+   entry = {'director': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
+   entry['director'] = movie_director
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareDirectors)
+   return entry
+
 def compareProductionCompanies(company, entry):
     ret=0
     compa = me.getKey(entry)
     if (company > compa):
+        ret=1
+    return ret
+
+def compareDirectors(director, entry):
+    ret=0
+    direct = me.getKey(entry)
+    if (director > direct):
         ret=1
     return ret
 
