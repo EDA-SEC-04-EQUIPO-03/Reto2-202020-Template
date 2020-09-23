@@ -81,8 +81,9 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
         controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
-        print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
-        print('Géneros cargados: ' + str(controller.genresSize(cont)))
+        print('Películas (Details) cargadas: ' + str(controller.moviesSize(cont)))
+        print('Películas (Casting) cargadas: ' + str(controller.moviesSize(cont)))
+        
 
     elif int(inputs[0]) == 3:
         number = input("Consultando productoras de cine...: ")
