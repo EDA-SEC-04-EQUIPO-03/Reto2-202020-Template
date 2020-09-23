@@ -50,8 +50,15 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 #  respuesta.  La vista solo interactua con
 #  el controlador.
 # ___________________________________________________
-
-
+def PrintRQ1(compa):
+    #Movies de compañia 
+    print('Productora encontrada: ' + compa['producer'])
+    print('Promedio: ' + str(compa['average_rating']))
+    print('Total de libros: ' + str(lt.size(compa['cantidad'])))
+    iterator = it.newIterator(compa['movie'])
+    while it.hasNext(iterator):
+        peli = it.next(iterator)
+        print("Título: "+peli )
 
 # ___________________________________________________
 #  Menu principal
@@ -86,7 +93,7 @@ while True:
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        print(movies)
+        PrintRQ1(movies)
 
     elif int(inputs[0]) == 4:
         authorname = input("Nombre del autor a buscar: ")

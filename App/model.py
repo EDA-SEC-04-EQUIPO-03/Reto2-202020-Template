@@ -72,6 +72,25 @@ def newCatalog():
                                    maptype='PROBING',
                                    loadfactor=0.4,
                                    comparefunction=compareProductionCompanies)
+<<<<<<< HEAD
+    catolog['directors'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=1,
+                                   comparefunction=compareDirectors)
+    catolog['actors'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=1,
+                                   comparefunction=compareMapMoviesIds)
+    catolog['genres'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=1,
+                                   comparefunction=compareMapMoviesIds) 
+    catolog['country'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=1,
+                                   comparefunction=compareMapMoviesIds)
+=======
+>>>>>>> c46952e1d298f387e8613f37491af1071ee97d91
 
     return catalog
 
@@ -126,11 +145,41 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["average"][0]= producer["average"][0] + promedioporpeli
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
+<<<<<<< HEAD
+
+def addMovieByDirector(catalog, movie, movie_director):
+    directors = catalog['directors']
+    checkDirector = mp.contains(directors, movie_director)
+    if checkDirector:
+        entry = mp.get(directors, movie_director)
+        director = me.getValue(entry)
+    else:
+        director = newDirector(movie_director)
+        mp.put(directors, movie_director, director)
+    lt.addLast(director['movies'], movie)
+
+    promedioporpeli = movie['vote_average']
+    if director["average"][0]==0.0:
+        director["average"][0]=promedioporpeli
+        director["cantidad"] = 1
+    else:
+        director["average"][0]= director["average"][0] + promedioporpeli
+        director["cantidad"] += 1
+    director["average"][1]=director["average"][0] / director["cantidad"]
+
+=======
+>>>>>>> c46952e1d298f387e8613f37491af1071ee97d91
     
 def newProducer(movie_product):
    entry = {'producer': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
    entry['producer'] = movie_product
    entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
+   return entry
+
+def newDirector(movie_director):
+   entry = {'director': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
+   entry['director'] = movie_director
+   entry['movies'] = lt.newList('SINGLE_LINKED', compareDirectors)
    return entry
 
 def compareProductionCompanies(company, entry):
@@ -139,6 +188,28 @@ def compareProductionCompanies(company, entry):
     if (company > compa):
         ret=1
     return ret
+
+def compareDirectors(director, entry):
+    ret=0
+    direct = me.getKey(entry)
+    if (director > direct):
+        ret=1
+    return ret
+
+
+
+
+
+def CastingSize(catalog):
+    return lt.size(catalog[''])
+def DetailsSize(catalog):
+    return lt.size(catalog[''])
+
+def getMoviesByCompany(catalog, companyname):
+    company = mp.get(catalog['production_companies'], companyname)
+    if company:
+        return me.getValue(company)
+    return None
 
 # def addBook(catalog, book):
 #     """
