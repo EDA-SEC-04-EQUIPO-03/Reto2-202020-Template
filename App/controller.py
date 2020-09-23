@@ -76,17 +76,6 @@ def loadCasting(catalog, smallcastingfile):
     smallcastingfile = cf.data_dir + smallcastingfile
     dialect = csv.excel()
     dialect.delimiter=";"
-<<<<<<< HEAD
-    try:
-        with open(smallmoviesfile,encoding="utf-8-sig") as csvfile:
-            movie=csv.DictReader(csvfile, dialect=dialect)
-            for m in movie:
-                model.addMovie(catalog, m)
-                model.addMovieids(catalog, m)
-                model.addProducer(catalog, m)
-    except:
-        pass
-=======
     movie=csv.DictReader(open(smallcastingfile, encoding='utf-8-sig'),dialect=dialect)
     for m in movie:
         model.addMovie1(catalog, m)
@@ -100,7 +89,6 @@ def loadCasting(catalog, smallcastingfile):
             model.addMovieByAutor(catalog, actor.strip(), m)
         director=m["director_name"]
         model.addMovieByDirector(catalog, director.strip(), m)
->>>>>>> fc78230a29832a27960da5b6998cb8537f08cee1
     
 def loadMovies(catalog, smallmoviesfile):
     """
