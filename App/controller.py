@@ -62,22 +62,21 @@ def printUltimoyprim(TAD):
    # print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
 
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
-    """
-    Carga los datos de los archivos en el modelo
-    """
+
     loadMovies(catalog, smallmoviesfile)
     loadCasting(catalog, smallcastingfile)
     
-def loadMovies(catalog, smallmoviesfile):
+def loadCasting(catalog, smallcastingfile):
     """
-    Carga cada una de las lineas del archivo de libros.
-    - Se agrega cada libro al catalogo de libros
-    - Por cada libro se encuentran sus autores y por cada
-      autor, se crea una lista con sus libros
+    Carga cada una de las lineas del archivo de movies.
+    - Se agrega cada movie al catalogo de movies
+    - Por cada movie se encuentra su autor y por cada
+      autor, se crea una lista con sus movies   
     """
-    smallmoviesfile = cf.data_dir + smallmoviesfile
+    smallcastingfile = cf.data_dir + smallcastingfile
     dialect = csv.excel()
     dialect.delimiter=";"
+<<<<<<< HEAD
     try:
         with open(smallmoviesfile,encoding="utf-8-sig") as csvfile:
             movie=csv.DictReader(csvfile, dialect=dialect)
@@ -87,17 +86,37 @@ def loadMovies(catalog, smallmoviesfile):
                 model.addProducer(catalog, m)
     except:
         pass
+=======
+    movie=csv.DictReader(open(smallcastingfile, encoding='utf-8-sig'),dialect=dialect)
+    for m in movie:
+        model.addMovie1(catalog, m)
+        lista_actors=[]
+        lista_actors.append(m["actor1_name"])
+        lista_actors.append(m["actor2_name"])
+        lista_actors.append(m["actor3_name"])
+        lista_actors.append(m["actor4_name"])
+        lista_actors.append(m["actor5_name"])
+        for actor in lista_actors:
+            model.addMovieByAutor(catalog, actor.strip(), m)
+        director=m["director_name"]
+        model.addMovieByDirector(catalog, director.strip(), m)
+>>>>>>> fc78230a29832a27960da5b6998cb8537f08cee1
     
-    
-def loadCasting(catalog, smallcastingfile):
+def loadMovies(catalog, smallmoviesfile):
     """
     Carga en el catalogo los tags a partir de la informacion
     del archivo de etiquetas
     """
-    smallcastingfile = cf.data_dir + smallcastingfile
-    input_file = csv.DictReader(open(smallcastingfile))
-    for cast in input_file:
-        model.addCast(catalog, cast)
+    smallmoviesfile = cf.data_dir + smallmoviesfile
+    dialect = csv.excel()
+    dialect.delimiter=";"
+    movie=csv.DictReader(open(smallmoviesfile, encoding='utf-8-sig'),dialect=dialect)
+    for m in movie:
+        model.addMovie2(catalog, m)
+        companion=m["production_companies"].split(",")
+        for cada_companion in companion:
+            model.addMovieByProducer(catalog, m, cada_companion)
+        # genero y paizez
 
 # ___________________________________________________
 #  Funciones para consultas
