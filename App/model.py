@@ -117,10 +117,18 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer = newProducer(movie_product)
         mp.put(producers, movie_product, producer)
     lt.addLast(producer['movies'], movie)
+
+    promedioporpeli = movie['vote_average']
+    if producer["average"][0]==0.0:
+        producer["average"][0]=promedioporpeli
+        producer["cantidad"] = 1
+    else:
+        producer["average"][0]= producer["average"][0] + promedioporpeli
+        producer["cantidad"] += 1
+    producer["average"][1]=producer["average"][0] / producer["cantidad"]
     
-        
 def newProducer(movie_product):
-   entry = {'producer': "", "movies": None}
+   entry = {'producer': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
    entry['producer'] = movie_product
    entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
    return entry
@@ -128,7 +136,7 @@ def newProducer(movie_product):
 def compareProductionCompanies(company, entry):
     ret=0
     compa = me.getKey(entry)
-    if (producer > compa):
+    if (company > compa):
         ret=1
     return ret
 
