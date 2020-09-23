@@ -60,18 +60,19 @@ def newCatalog():
 
     catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)
     catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['moviesID1'] = mp.newMap(2000,
+    catalog['moviesID1'] = mp.newMap(cantidad,
                                 maptype='CHAINING',
-                                loadfactor= 1,
+                                loadfactor=factor_de_carga,
                                 comparefunction=compareMapMoviesIds)
-    catalog['moviesID2'] = mp.newMap(2000    ,
+    catalog['moviesID2'] = mp.newMap(cantidad,
                                    maptype='CHAINING',
-                                   loadfactor=1,
+                                   loadfactor=factor_de_carga,
                                    comparefunction=compareMapMoviesIds)
     catalog['production_companies'] = mp.newMap(4000,
                                    maptype='PROBING',
-                                   loadfactor=0.5,
+                                   loadfactor=0.4,
                                    comparefunction=compareProductionCompanies)
+<<<<<<< HEAD
     catolog['directors'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
@@ -88,6 +89,8 @@ def newCatalog():
                                    maptype='CHAINING',
                                    loadfactor=1,
                                    comparefunction=compareMapMoviesIds)
+=======
+>>>>>>> c46952e1d298f387e8613f37491af1071ee97d91
 
     return catalog
 
@@ -95,7 +98,21 @@ def newCatalog():
 
 
 
+
 # Funciones para agregar informacion al catalogo
+
+#def loadCSVFile (file, cmpfunction):
+    #lst=lt.newList("ARRAY_LIST", cmpfunction)
+    #dialect = csv.excel()
+    #dialect.delimiter=";"
+    #try:
+        #with open(  cf.data_dir + file, encoding="utf-8") as csvfile:
+           # row = csv.DictReader(csvfile, dialect=dialect)
+           # for elemento in row: 
+                #ls.addLast(lst,elemento)
+    #except:
+        #print("Hubo un error con la carga del archivo")
+    #return lst
 
 def addMovie1(catalog, movie):
     lt.addLast(catalog['movies1'], movie)
@@ -128,6 +145,7 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["average"][0]= producer["average"][0] + promedioporpeli
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
+<<<<<<< HEAD
 
 def addMovieByDirector(catalog, movie, movie_director):
     directors = catalog['directors']
@@ -149,6 +167,8 @@ def addMovieByDirector(catalog, movie, movie_director):
         director["cantidad"] += 1
     director["average"][1]=director["average"][0] / director["cantidad"]
 
+=======
+>>>>>>> c46952e1d298f387e8613f37491af1071ee97d91
     
 def newProducer(movie_product):
    entry = {'producer': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
@@ -176,6 +196,114 @@ def compareDirectors(director, entry):
         ret=1
     return ret
 
+
+
+
+
+def CastingSize(catalog):
+    return lt.size(catalog[''])
+def DetailsSize(catalog):
+    return lt.size(catalog[''])
+
+def getMoviesByCompany(catalog, companyname):
+    company = mp.get(catalog['production_companies'], companyname)
+    if company:
+        return me.getValue(company)
+    return None
+
+# def addBook(catalog, book):
+#     """
+#     Esta funcion adiciona un libro a la lista de libros,
+#     adicionalmente lo guarda en un Map usando como llave su Id.
+#     Finalmente crea una entrada en el Map de años, para indicar que este
+#     libro fue publicaco en ese año.
+#     """
+#     lt.addLast(catalog['books'], book)
+#     mp.put(catalog['bookIds'], book['goodreads_book_id'], book)
+#     addBookYear(catalog, book)
+
+
+# def addBookYear(catalog, book):
+#     """
+#     Esta funcion adiciona un libro a la lista de libros que
+#     fueron publicados en un año especifico.
+#     Los años se guardan en un Map, donde la llave es el año
+#     y el valor la lista de libros de ese año.
+#     """
+#     years = catalog['years']
+#     pubyear = book['original_publication_year']
+#     pubyear = int(float(pubyear))
+#     existyear = mp.contains(years, pubyear)
+#     if existyear:
+#         entry = mp.get(years, pubyear)
+#         year = me.getValue(entry)
+#     else:
+#         year = newYear(pubyear)
+#         mp.put(years, pubyear, year)
+#     lt.addLast(year['books'], book)
+
+
+# def newYear(pubyear):
+#     """
+#     Esta funcion crea la estructura de libros asociados
+#     a un año.
+#     """
+#     entry = {'year': "", "books": None}
+#     entry['year'] = pubyear
+#     entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
+#     return entry
+
+
+# def addBookAuthor(catalog, authorname, book):
+#     """
+#     Esta función adiciona un libro a la lista de libros publicados
+#     por un autor.
+#     Cuando se adiciona el libro se actualiza el promedio de dicho autor
+#     """
+#     authors = catalog['authors']
+#     existauthor = mp.contains(authors, authorname)
+#     if existauthor:
+#         entry = mp.get(authors, authorname)
+#         author = me.getValue(entry)
+#     else:
+#         author = newAuthor(authorname)
+#         mp.put(authors, authorname, author)
+#     lt.addLast(author['books'], book)
+
+#     authavg = author['average_rating']
+#     bookavg = book['average_rating']
+#     if (authavg == 0.0):
+#         author['average_rating'] = float(bookavg)
+#     else:
+#         author['average_rating'] = (authavg + float(bookavg)) / 2
+
+
+# def addTag(catalog, tag):
+#     """
+#     Adiciona un tag a la tabla de tags dentro del catalogo
+#     """
+#     newtag = newTagBook(tag['tag_name'], tag['tag_id'])
+#     mp.put(catalog['tags'], tag['tag_name'], newtag)
+#     mp.put(catalog['tagIds'], tag['tag_id'], newtag)
+
+
+# def addBookTag(catalog, tag):
+#     """
+#     Agrega una relación entre un libro y un tag.
+#     Para ello se adiciona el libro a la lista de libros
+#     del tag.
+#     """
+#     bookid = tag['goodreads_book_id']
+#     tagid = tag['tag_id']
+#     entry = mp.get(catalog['tagIds'], tagid)
+
+#     if entry:
+#         tagbook = mp.get(catalog['tags'], me.getValue(entry)['name'])
+#         tagbook['value']['total_books'] += 1
+#         tagbook['value']['count'] += int(tag['count'])
+#         book = mp.get(catalog['bookIds'], bookid)
+#         if book:
+#             lt.addLast(tagbook['value']['books'], book['value'])
 
 
 # ==============================
