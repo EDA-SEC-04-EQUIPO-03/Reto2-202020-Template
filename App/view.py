@@ -56,11 +56,11 @@ def PrintRQ1(compa):
     print('Productora es: ' + compa['producer'])
     print('Promedio es: ' + str(compa['average'][1]))
     print('Total de libros: ' + str(lt.size(compa['movies'])))
-    iterator = it.newIterator(compa)
+    iterator = it.newIterator(compa["movies"])
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + str(peli["movies"]) )
+        print("Título #" + str(i) +" "+ str(peli) )
         i+=1
 
 def PrintRQ2(direc):
