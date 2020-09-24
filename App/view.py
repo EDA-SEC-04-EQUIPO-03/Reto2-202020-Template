@@ -88,7 +88,7 @@ def PrintRQ3(aktor):
     print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
     print('Promedio es: ' + str(aktor['vote_average'][1]))
     print('Total de películas: ' + str(lt.size(aktor['movies'])))
-    #print("El director con más colaboraciones es: " + str(alkor[""]))
+    print("El director con más colaboraciones es: " + str(alkor["dmayor"]))
     iterator = it.newIterator(compa['movies'])   #Operación fallando en model NewActor
     i=0
     while it.hasNext(iterator) and i<6:
