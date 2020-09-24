@@ -145,6 +145,26 @@ def addMovieByDirector(catalog, movie, movie_director, extra, iD):
         director["cantidad"] += 1
     director["average"][1]=director["average"][0] / director["cantidad"]
 
+def addMovieByGenre(catalog, movie, gender):
+    genders = catalog['genres']
+    revisarGen = mp.contains(genders, gender)
+    if revisarGen:
+        entry = mp.get(genders, gender)
+        gener_mov = me.getValue(entry)
+    else:
+        gener_mov = newGenre(gender)
+        mp.put(genders, gender, director)
+    lt.addLast(gener_mov['genres'], movie)
+
+    promedioporpeli = movie['vote_count']
+    if gener_mov["count"][0]==0.0:
+        gener_mov["count"][0]=promedioporpeli
+        gener_mov["cantidad"] = 1
+    else:
+        gener_mov["count"][0]= gener_mov["count"][0] + promedioporpeli
+        gener_mov["cantidad"] += 1
+    gener_mov["count"][1]=gener_mov["count"][0] / gener_mov["cantidad"]
+
 # Funciones de consulta (get)
 
 def getmoviesByDirector(catalog, name_director):
@@ -201,10 +221,10 @@ def NewActor(actorName):
     entry['movies'] = lt.newList('ARRAY_LIST', compareActors)
     return entry
 
-def NewGenre(genreName):
-    entry = {'genero': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
-    entry['genero'] = genreName
-    entry['movies'] = lt.newList('ARRAY_LIST', compareGenres)
+def newGenre(gender):
+    entry = {'genero': "", "movies": None, "count": [0.0,1.1], "cantidad": 0}
+    entry['genero'] = gender
+    entry['movies'] = lt.newList('ARRAY_LIST', compareProductionCompanies)
     return entry
 
 #Funciones Comparación 
