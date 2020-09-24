@@ -161,7 +161,8 @@ while True:
         t1_stop = process_time()
 
     elif int(inputs[0]) == 3:
-        nombre = input("Consultando productoras de cine...: ")
+        t1_start = process_time()
+        nombre = input("Digite el nombre de la compañia:")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         PrintRQ1(movies)
 

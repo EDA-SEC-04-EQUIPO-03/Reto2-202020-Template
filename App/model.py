@@ -24,6 +24,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.DataStructures import liststructure as ls
+from DISClib.DataStructures import listiterator as it
 assert config
 import config as cf
 import csv
@@ -51,8 +52,8 @@ def newCatalog():
 
     Retorna el catalogo inicializado.
     """
-    catalog = {'movies1': None,
-               'movies2': None,
+    catalog = {'movies1': None, 
+               'movies2': None,  
                'moviesID1': None,
                'moviesID2': None,
                'production_companies': None
@@ -62,11 +63,11 @@ def newCatalog():
     catalog['movies2'] = lt.newList('ARRAY_LIST', compareMovieIds)
     catalog['moviesID1'] = mp.newMap(2000,
                                 maptype='PROBING',
-                                loadfactor= 1,
+                                loadfactor= 0.5,
                                 comparefunction=compareMapMovieIds)
     catalog['moviesID2'] = mp.newMap(2000    ,
                                    maptype='PROBING',
-                                   loadfactor=1,
+                                   loadfactor=0.5,
                                    comparefunction=compareMapMovieIds)
     catalog['production_companies'] = mp.newMap(2000,
                                    maptype='PROBING',
@@ -74,19 +75,19 @@ def newCatalog():
                                    comparefunction=compareProductionCompanies)
     catalog['directors'] = mp.newMap(2000   ,
                                    maptype='PROBING',
-                                   loadfactor=1,
+                                   loadfactor=0.5,
                                    comparefunction=compareDirectors)
     catalog['actors'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
-                                   loadfactor=1,
+                                   maptype='PROBING',
+                                   loadfactor=0.5,
                                    comparefunction=compareMapMovieIds)
     catalog['genres'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
-                                   loadfactor=1,
+                                   maptype='PROBING',
+                                   loadfactor=0.5,
                                    comparefunction=compareMapMovieIds) 
     catalog['country'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
-                                   loadfactor=1,
+                                   maptype='PROBING',
+                                   loadfactor=0.5,
                                    comparefunction=compareMapMovieIds)
 
     return catalog
@@ -101,6 +102,7 @@ def addMovie2(catalog, movie):
     producer_name=movie["production_companies"].split(",")
     for producer in producer_name:
         addMovieByProducer(catalog, movie, producer)
+    
 
 
 def addMovieByProducer(catalog, movie,movie_product):
@@ -177,6 +179,46 @@ def addMoviesByCountry(catalog, movie, country):
         mp.put(paises, country, pais_movie)
     lt.addLast(gener_mov['genres'], movie)
 
+#def addMoviesByCountry(catalog)
+def addMovieByActor(catalog, movie, movie_actor, extra, iD):
+    movie2 = mp.get(extra, iD)
+    movie2VC = me.getValue(movie2)['vote_average']
+    actors = catalog['actors']
+    checkActor = mp.contains(actors, movie_actor)
+    if checkActor:
+        entry = mp.get(actors, movie_actor)
+        actor = me.getValue(entry)
+    else:
+        actor = newActor(movie_actor)
+        mp.put(actors, movie_actor, actor)
+    lt.addLast(actor['movies'], movie)
+
+    iterator = it.newIterator(actor["movies"])
+    while it.hasNext(iterator):
+        element = it.next(iterator)
+        if element["director_name"] in actor["ddict"].keys():
+            actor["ddict"][element["director_name"]] += 1
+
+        else:
+            actor["ddict"][element["director_name"]] = 1
+
+    for key in actor["ddict"].keys():
+        if actor["ddict"][key]>actor["mayor"]:
+            actor["mayor"] = actor["ddict"][key]
+            actor["dmayor"] = key 
+
+    promedioporpeli = float(movie2VC)
+    if actor["vote_average"][0]==0.0:
+        actor["vote_average"][0]=promedioporpeli
+        actor["cantidad"] = 1
+    else:
+        actor["vote_average"][0]= actor["vote_average"][0] + promedioporpeli
+        actor["cantidad"] += 1
+    actor["vote_average"][1]=actor["vote_average"][0] / actor["cantidad"]
+
+    
+
+
 
 # Funciones de consulta (get)
 
@@ -224,14 +266,14 @@ def newDirector(name_director):
    return entry
 
 
-def NewCountry(countryName):
-    entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0   }
+def newCountry(countryName):
+    entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
     entry['pais'] = countryName
     entry['movies'] = lt.newList('ARRAY_LIST', compareCountry)
     return entry
 
-def NewActor(actorName):
-    entry = {'actor': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+def newActor(actorName):
+    entry = {'actor': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0, "ddict":{}, "mayor": 0, "dmayor":"" }
     entry['actor'] = actorName
     entry['movies'] = lt.newList('ARRAY_LIST', compareActors)
     return entry

@@ -57,7 +57,10 @@ def printUltimoyprim(TAD):
     lista.append(ultimis)
     return lista
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Rama-Lab4
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
 
     loadMovies(catalog, smallmoviesfile)
@@ -83,8 +86,8 @@ def loadCasting(catalog, smallcastingfile):
         lista_actors.append(m["actor3_name"])
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
-        #for actor in lista_actors:
-        #    model.addMovieByActor(catalog,m, actor.strip())
+        for actor in lista_actors:
+            model.addMovieByActor(catalog,m, actor.strip(),catalog['moviesID2'], iD)
         director=m["director_name"]
         model.addMovieByDirector(catalog,m, director.strip(), catalog['moviesID2'], iD)
         #Agregar catalog de LoadMovies
@@ -145,13 +148,7 @@ def movies2Size(catalog):
     """
     return model.DetailsSize(catalog)
 
-#def genresSize(catalog):
-    """Numero de libros leido
-    """
-   # return model.genresSize(catalog)
-
-#def getMoviesByCountry(catalog, country):
-    """
-    #countryinfo = model.getMoviesByCountry(catalog, country)
-    return country 
-    """
+def getMoviesByActor(catalog, actor):
+    'Retorna las peliculas segun el director'
+    actorMovies = model.getMoviesByActor(catalog, actor)
+    return actorMovies
