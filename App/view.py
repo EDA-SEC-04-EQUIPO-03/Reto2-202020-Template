@@ -88,7 +88,6 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
         controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
-        controller.loadMoviesArchivo() 
         t1_start = process_time()
         print('Peliculas (Details) cargadas: ' + str(controller.movies1Size(cont)))
         print('Peliculas (CastingRaw) cargadas: ' + str(controller.movies2Size(cont)))

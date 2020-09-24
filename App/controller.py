@@ -122,10 +122,15 @@ def getMoviesByDirector(catalog, director):
     return directorMovies
 
 
-def moviesSize(catalog):
+def movies1Size(catalog):
     """Numero de libros leido
     """
-    return model.moviesSize(catalog)
+    return model.CastingSize(catalog)
+
+def movies2Size(catalog):
+    """Numero de libros leido
+    """
+    return model.DetailsSize(catalog)
 
 #def genresSize(catalog):
     """Numero de libros leido
