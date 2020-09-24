@@ -57,10 +57,6 @@ def printUltimoyprim(TAD):
     lista.append(ultimis)
     return lista
 
-#def loadMoviesArchivo ():
-   #lst = model.loadCSVFile("SmallMoviesDetailsCleaned.csv",None) 
-   # print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
-
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
 
     loadMovies(catalog, smallmoviesfile)
@@ -79,16 +75,17 @@ def loadCasting(catalog, smallcastingfile):
     movie=csv.DictReader(open(smallcastingfile, encoding='utf-8-sig'),dialect=dialect)
     for m in movie:
         model.addMovie1(catalog, m)
+        iD = m['id']
         lista_actors=[]
         lista_actors.append(m["actor1_name"])
         lista_actors.append(m["actor2_name"])
         lista_actors.append(m["actor3_name"])
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
-        for actor in lista_actors:
-            model.addMovieByAutor(catalog,m, actor.strip())
+        #for actor in lista_actors:
+        #    model.addMovieByActor(catalog,m, actor.strip())
         director=m["director_name"]
-        model.addMovieByDirector(catalog,m, director.strip())
+        model.addMovieByDirector(catalog,m, director.strip(), catalog['moviesID2'], iD)
     
 def loadMovies(catalog, smallmoviesfile):
     """
@@ -159,5 +156,15 @@ def getMoviesByGenre(catalog):
 def descubrirProductorasDeCine(catalog, nameCompany):
     return model.descubrirProductorasDeCine(catalog, nameCompany)
 
+def getMoviesByDirector(catalog, director):
+    'Retorna las peliculas segun el director'
+    directorMovies = model.getMoviesByDirector(catalog, director)
+    return directorMovies
+
+
+def moviesSize(catalog):
+    """Numero de libros leido
+    """
+    return model.moviesSize(catalog)
 
 

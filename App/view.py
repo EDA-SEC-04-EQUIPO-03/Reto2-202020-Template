@@ -87,42 +87,20 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
         controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
-        controller.loadMoviesArchivo() 
         t1_start = process_time()
         print('Peliculas (Details) cargadas: ' + str(controller.movies1Size(cont)))
         print('Peliculas (CastingRaw) cargadas: ' + str(controller.movies2Size(cont)))
-        t1_stop = process_time() #tiempo final
+        t1_stop = process_time() 
     elif int(inputs[0]) == 3:
         t1_start = process_time()
         nombre = input("Digite el nombre de la compañia:")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        PrintRQ1(movies)
+        print(movies)
 
     elif int(inputs[0]) == 4:
-        authorname = input("Nombre del autor a buscar: ")
-        authorinfo = controller.getBooksByAuthor(cont, authorname)
-        print(authorinfo)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
-
-    elif int(inputs[0]) == 5:
-        label = input("Etiqueta a buscar: ")
-        books = controller.getBooksByTag(cont, label)
-        print(books)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
+        nombre = input("Ingrese el nombre del director que desea conocer:\n")
+        director = controller.getMoviesByDirector(cont, nombre)
+        print(director)
     else:
         sys.exit(0)
 sys.exit(0)

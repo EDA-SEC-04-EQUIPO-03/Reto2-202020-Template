@@ -58,46 +58,46 @@ def newCatalog():
                'production_companies': None
                }
 
-    catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)  #Casting
-    catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)  #Detalles
+    catalog['movies1'] = lt.newList('ARRAY_LIST', compareMovieIds)
+    catalog['movies2'] = lt.newList('ARRAY_LIST', compareMovieIds)
     catalog['moviesID1'] = mp.newMap(2000,
-                                maptype='CHAINING',
-                                loadfactor=0.7,
-                                comparefunction=compareMapMoviesIds)
-    catalog['moviesID2'] = mp.newMap(2000,
-                                   maptype='CHAINING',
-                                   loadfactor=0.7,
-                                   comparefunction=compareMapMoviesIds)
+                                maptype='PROBING',
+                                loadfactor= 1,
+                                comparefunction=compareMapMovieIds)
+    catalog['moviesID2'] = mp.newMap(2000    ,
+                                   maptype='PROBING',
+                                   loadfactor=1,
+                                   comparefunction=compareMapMovieIds)
     catalog['production_companies'] = mp.newMap(2000,
-                                   maptype='CHAINING',
-                                   loadfactor=0.7,
+                                   maptype='PROBING',
+                                   loadfactor=0.5,
                                    comparefunction=compareProductionCompanies)
-    catalog['directors'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
-                                   loadfactor=0.7,
+    catalog['directors'] = mp.newMap(2000   ,
+                                   maptype='PROBING',
+                                   loadfactor=1,
                                    comparefunction=compareDirectors)
     catalog['actors'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
-                                   loadfactor=0.7,
-                                   comparefunction=compareMapMoviesIds)
+                                   loadfactor=1,
+                                   comparefunction=compareMapMovieIds)
     catalog['genres'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
-                                   loadfactor=0.7,
-                                   comparefunction=compareMapMoviesIds) 
-    catalog['countries'] = mp.newMap(2000    ,
+                                   loadfactor=1,
+                                   comparefunction=compareMapMovieIds) 
+    catalog['country'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
-                                   loadfactor=0.7,
-                                   comparefunction=compareMapMoviesIds)
+                                   loadfactor=1,
+                                   comparefunction=compareMapMovieIds)
 
     return catalog
 
 def addMovie1(catalog, movie):
     lt.addLast(catalog['movies1'], movie)
-    mp.put(catalog['movieID1'], movie['id'], movie)
+    mp.put(catalog['moviesID1'], movie['id'], movie)
 
 def addMovie2(catalog, movie):
     lt.addLast(catalog['movies2'], movie)
-    mp.put(catalog['movieID2'], movie['id'], movie)
+    mp.put(catalog['moviesID2'], movie['id'], movie)
     producer_name=movie["production_companies"].split(",")
     for producer in producer_name:
         addMovieByProducer(catalog, movie, producer)
@@ -115,7 +115,7 @@ def addMovieByProducer(catalog, movie,movie_product):
         mp.put(producers, movie_product, producer)
     lt.addLast(producer['movies'], movie)
 
-    promedioporpeli = movie['vote_average']
+    promedioporpeli = float(movie['vote_average'])
     if producer["average"][0]==0.0:
         producer["average"][0]=promedioporpeli
         producer["cantidad"] = 1
@@ -124,7 +124,9 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
 
-def addMovieByDirector(catalog, movie, movie_director):
+def addMovieByDirector(catalog, movie, movie_director, extra, iD):
+    movie2 = mp.get(extra, iD)
+    movie2VC = me.getValue(movie2)['vote_average']
     directors = catalog['directors']
     checkDirector = mp.contains(directors, movie_director)
     if checkDirector:
@@ -135,7 +137,7 @@ def addMovieByDirector(catalog, movie, movie_director):
         mp.put(directors, movie_director, director)
     lt.addLast(director['movies'], movie)
 
-    promedioporpeli = movie['vote_average']
+    promedioporpeli = float(movie2VC)
     if director["average"][0]==0.0:
         director["average"][0]=promedioporpeli
         director["cantidad"] = 1
@@ -143,6 +145,27 @@ def addMovieByDirector(catalog, movie, movie_director):
         director["average"][0]= director["average"][0] + promedioporpeli
         director["cantidad"] += 1
     director["average"][1]=director["average"][0] / director["cantidad"]
+
+def addMovieByGenre(catalog, movie, gender):
+    genders = catalog['genres']
+    revisarGen = mp.contains(genders, gender)
+    if revisarGen:
+        entry = mp.get(genders, gender)
+        gener_mov = me.getValue(entry)
+    else:
+        gener_mov = newGenre(gender)
+        mp.put(genders, gender, director)
+    lt.addLast(gener_mov['genres'], movie)
+
+    promedioporpeli = movie['vote_count']
+    if gener_mov["count"][0]==0.0:
+        gener_mov["count"][0]=promedioporpeli
+        gener_mov["cantidad"] = 1
+    else:
+        gener_mov["count"][0]= gener_mov["count"][0] + promedioporpeli
+        gener_mov["cantidad"] += 1
+    gener_mov["count"][1]=gener_mov["count"][0] / gener_mov["cantidad"]
+
 
 # Funciones de consulta (get)
 
@@ -200,10 +223,10 @@ def NewActor(actorName):
     entry['movies'] = lt.newList('ARRAY_LIST', compareActors)
     return entry
 
-def NewGenre(genreName):
-    entry = {'genero': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
-    entry['genero'] = genreName
-    entry['movies'] = lt.newList('ARRAY_LIST', compareGenres)
+def newGenre(gender):
+    entry = {'genero': "", "movies": None, "count": [0.0,1.1], "cantidad": 0}
+    entry['genero'] = gender
+    entry['movies'] = lt.newList('ARRAY_LIST', compareProductionCompanies)
     return entry
 
 #Funciones Comparación 
