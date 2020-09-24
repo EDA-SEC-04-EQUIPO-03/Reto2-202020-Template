@@ -69,6 +69,7 @@ def PrintRQ1(compa):
 
 def PrintRQ2(direc):
     #Imprimir Movies de director 
+    peliss=[]
     print('Director es: ' + direc['director'])
     print('Promedio: ' + str(direc['average'][1]))
     print('Total de libros: ' + str(lt.size(direc['movies'])))
@@ -76,11 +77,14 @@ def PrintRQ2(direc):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) +" "+ peli["original_title"] )
-        i+=1
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) +" "+ peli["original_title"] )
+            i+=1
 
 def PrintRQ3(aktor):
-    #Imprimir Movies de actor 
+    #Imprimir Movies de actor
+    peliss=[] 
     print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
     print('Promedio es: ' + str(aktor['vote_average'][1]))
     print('Total de libros: ' + str(lt.size(aktor['movies'])))
@@ -89,11 +93,14 @@ def PrintRQ3(aktor):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + " "+ peli["original_title"] )
-        i+=1
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
 
 def PrintRQ4(genre):
     #Imprimir Movies de actor 
+    peliss=[]
     print('Genero encontrado: ' + genre['genero'])
     print('Promedio: ' + str(genre['vote_average'][1]))
     print('Total de libros: ' + str(lt.size(genre['movies'])))
@@ -101,10 +108,13 @@ def PrintRQ4(genre):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + " "+ peli["original_title"] )
-        i+=1
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
 
 def PrintRQ5(paiz):
+    peliss=[]
     #Imprimir Movies de un país 
     print('Pais encontrado: ' + paiz['pais'])
     print('Promedio: ' + str(paiz['vote_average'][1]))
@@ -113,8 +123,10 @@ def PrintRQ5(paiz):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + " "+ peli["original_title"] )
-        i+=1
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
 
 # ___________________________________________________
 #  Menu principal
