@@ -52,7 +52,8 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 #  el controlador.
 # ___________________________________________________
 def PrintRQ1(compa):
-    #Imprimir Movies de compañia 
+    #Imprimir Movies de compañia
+    peli=[] 
     print('Productora es: ' + compa['producer'])
     print('Promedio es: ' + str(compa['average'][1]))
     print('Total de libros: ' + str(lt.size(compa['movies'])))
@@ -60,8 +61,11 @@ def PrintRQ1(compa):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) +" "+ str(peli["original_title"]) )
-        i+=1
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) +" "+ str(peli["original_title"]) )
+            i+=1
+    
 
 def PrintRQ2(direc):
     #Imprimir Movies de director 
