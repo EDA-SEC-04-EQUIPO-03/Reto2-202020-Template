@@ -56,7 +56,7 @@ def PrintRQ1(compa):
     peliss=[] 
     print('Productora es: ' + compa['producer'])
     print('Promedio es: ' + str(compa['average'][1]))
-    print('Total de libros: ' + str(lt.size(compa['movies'])))
+    print('Total de películas: ' + str(lt.size(compa['movies'])))
     iterator = it.newIterator(compa["movies"])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -72,7 +72,7 @@ def PrintRQ2(direc):
     peliss=[]
     print('Director es: ' + direc['director'])
     print('Promedio: ' + str(direc['average'][1]))
-    print('Total de libros: ' + str(lt.size(direc['movies'])))
+    print('Total de películas: ' + str(lt.size(direc['movies'])))
     iterator = it.newIterator(direc['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -87,7 +87,7 @@ def PrintRQ3(aktor):
     peliss=[] 
     print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
     print('Promedio es: ' + str(aktor['vote_average'][1]))
-    print('Total de libros: ' + str(lt.size(aktor['movies'])))
+    print('Total de películas: ' + str(lt.size(aktor['movies'])))
     #print("El director con más colaboraciones es: " + str(alkor[""]))
     iterator = it.newIterator(compa['movies'])   #Operación fallando en model NewActor
     i=0
@@ -103,7 +103,7 @@ def PrintRQ4(genre):
     peliss=[]
     print('Genero encontrado: ' + genre['genero'])
     print('Promedio: ' + str(genre['vote_average'][1]))
-    print('Total de libros: ' + str(lt.size(genre['movies'])))
+    print('Total de películas: ' + str(lt.size(genre['movies'])))
     iterator = it.newIterator(genre['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -118,7 +118,7 @@ def PrintRQ5(paiz):
     #Imprimir Movies de un país 
     print('Pais encontrado: ' + paiz['pais'])
     print('Promedio: ' + str(paiz['vote_average'][1]))
-    print('Total de libros: ' + str(lt.size(paiz['movies'])))
+    print('Total de películas: ' + str(lt.size(paiz['movies'])))
     iterator = it.newIterator(paiz['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
