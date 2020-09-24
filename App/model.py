@@ -101,6 +101,7 @@ def addMovie2(catalog, movie):
     producer_name=movie["production_companies"].split(",")
     for producer in producer_name:
         addMovieByProducer(catalog, movie, producer)
+    
 
 
 def addMovieByProducer(catalog, movie,movie_product):
