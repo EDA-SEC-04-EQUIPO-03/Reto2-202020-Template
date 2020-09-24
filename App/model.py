@@ -206,7 +206,7 @@ def newProducer(movie_product):
 def newDirector(name_director):
    entry = {'director': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
    entry['director'] = name_director
-   entry['movies'] = lt.newList('SINGLE_LINKED', compareDirectors)
+   entry['movies'] = lt.newList('ARRAY_LIST', compareDirectors)
    return entry
 
 

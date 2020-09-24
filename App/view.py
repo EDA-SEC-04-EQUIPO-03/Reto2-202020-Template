@@ -72,7 +72,7 @@ def PrintRQ2(direc):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + peli )
+        print("Título #" + str(i) +" "+ peli["original_title"] )
         i+=1
 
 def PrintRQ3(aktor):
@@ -85,7 +85,7 @@ def PrintRQ3(aktor):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + peli )
+        print("Título #" + str(i) + " "+ peli["original_title"] )
         i+=1
 
 def PrintRQ4(genre):
@@ -97,7 +97,7 @@ def PrintRQ4(genre):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + peli )
+        print("Título #" + str(i) + " "+ peli["original_title"] )
         i+=1
 
 def PrintRQ5(paiz):
@@ -109,7 +109,7 @@ def PrintRQ5(paiz):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) + peli )
+        print("Título #" + str(i) + " "+ peli["original_title"] )
         i+=1
 
 # ___________________________________________________
