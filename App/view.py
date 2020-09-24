@@ -178,7 +178,7 @@ while True:
         director = controller.getMoviesByGenre(cont, nombre)
         PrintRQ4(director)
     elif int(inputs[0]) == 7:
-        nombre = input("Ingrese el nombre del director que desea conocer:\n")
+        nombre = input("Ingrese el nombre del país a filtrar:\n")
         director = controller.getMoviesByPais(cont, nombre)
         PrintRQ5(director)
     else:
