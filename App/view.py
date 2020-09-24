@@ -86,40 +86,18 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
-        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
-        controller.loadMoviesArchivo() 
+        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile) 
         print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
 
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        PrintRQ1(movies)
+        print(movies)
 
     elif int(inputs[0]) == 4:
-        authorname = input("Nombre del autor a buscar: ")
-        authorinfo = controller.getBooksByAuthor(cont, authorname)
-        print(authorinfo)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
-
-    elif int(inputs[0]) == 5:
-        label = input("Etiqueta a buscar: ")
-        books = controller.getBooksByTag(cont, label)
-        print(books)
-        lista_de_dic=controller.printUltimoyprim(books)
-        i=0
-        while i<5:
-            for filtro in lista:
-                print(filtro)
-                print(lista_de_dic[0[filtro]])
-                print(lista_de_dic[1[filtro]])
-            i+=1
+        nombre = input("Ingrese el nombre del director que desea conocer:\n")
+        director = controller.getMoviesByDirector(cont, nombre)
+        print(director)
     else:
         sys.exit(0)
 sys.exit(0)

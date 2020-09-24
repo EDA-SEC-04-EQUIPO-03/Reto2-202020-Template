@@ -79,16 +79,17 @@ def loadCasting(catalog, smallcastingfile):
     movie=csv.DictReader(open(smallcastingfile, encoding='utf-8-sig'),dialect=dialect)
     for m in movie:
         model.addMovie1(catalog, m)
+        iD = m['id']
         lista_actors=[]
         lista_actors.append(m["actor1_name"])
         lista_actors.append(m["actor2_name"])
         lista_actors.append(m["actor3_name"])
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
-        for actor in lista_actors:
-            model.addMovieByAutor(catalog,m, actor.strip())
+        #for actor in lista_actors:
+        #    model.addMovieByActor(catalog,m, actor.strip())
         director=m["director_name"]
-        model.addMovieByDirector(catalog,m, director.strip())
+        model.addMovieByDirector(catalog,m, director.strip(), catalog['moviesID2'], iD)
     
 def loadMovies(catalog, smallmoviesfile):
     """
@@ -114,6 +115,12 @@ def getMoviesByProductionCompanie(catalog, production_company):
     "Retorna las películas según una productora dada"
     production_info=model.getMoviesByCompany(catalog, production_company)
     return production_info
+
+def getMoviesByDirector(catalog, director):
+    'Retorna las peliculas segun el director'
+    directorMovies = model.getMoviesByDirector(catalog, director)
+    return directorMovies
+
 
 def moviesSize(catalog):
     """Numero de libros leido
