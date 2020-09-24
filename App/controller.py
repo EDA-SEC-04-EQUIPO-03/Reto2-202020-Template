@@ -57,9 +57,6 @@ def printUltimoyprim(TAD):
     lista.append(ultimis)
     return lista
 
-#def loadMoviesArchivo ():
-   #lst = model.loadCSVFile("SmallMoviesDetailsCleaned.csv",None) 
-   # print("Datos cargados, " + str(ls.size(lst)) + " elementos cargados")
 
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
 
