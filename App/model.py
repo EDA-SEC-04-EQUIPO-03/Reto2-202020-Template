@@ -266,7 +266,8 @@ def compareCountry(country, entry):
     else:
         return 0 
 
-#Funciones Size
+
+#Funciones Size catalogo - map
 
 def CastingSize(catalog):
     return lt.size(catalog['movies1'])
