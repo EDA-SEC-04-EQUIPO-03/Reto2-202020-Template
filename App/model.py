@@ -169,28 +169,29 @@ def addMovieByGenre(catalog, movie, gender):
 
 # Funciones de consulta (get)
 
-def getmoviesByDirector(catalog, name_director):
+def getMoviesByDirector(catalog, name_director):
     director = mp.get(catalog['directors'], name_director)
     if director:
         return me.getValue(director)
     return None
 
-def getmoviesByActor(catalog, name_actor):
+def getMoviesByActor(catalog, name_actor):
     actor = mp.get(catalog['actors'], name_actor)
     if actor:
         return me.getValue(actor)
     return None
-def getmoviesByProductionCompany(catalog, companyname):
+def getMoviesByCompany(catalog, companyname):
     company = mp.get(catalog['production_companies'], companyname)
+    listNames = company
     if company:
         return me.getValue(company)
     return None
-def getmoviesByGenres(catalog, genero):
+def getMoviesByGenres(catalog, genero):
     genre = mp.get(catalog['genres'], genero)
     if genre:
         return me.getValue(genre)
     return None
-def getmoviesByCountry(catalog,countryname):
+def getMoviesByCountry(catalog,countryname):
     country = mp.get(catalog['countries'], countryname)
     if country:
         return me.getValue(country)
@@ -239,7 +240,7 @@ def compareMovieIds(id1, id2):
     else:
         return -1
         
-def compareMapMoviesIds(id, entry):
+def compareMapMovieIds(id, entry):
     identry = me.getKey(entry)
     if (int(id) == int(identry)):
         return 0
