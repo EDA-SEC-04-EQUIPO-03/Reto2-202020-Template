@@ -122,6 +122,21 @@ def getMoviesByDirector(catalog, director):
     directorMovies = model.getMoviesByDirector(catalog, director)
     return directorMovies
 
+def getMoviesByActor(catalog, actor):
+    'Retorna las peliculas segun el director'
+    directorMovies = model.getMoviesByActor(catalog, actor)
+    return directorMovies
+
+def getMoviesByGenre(catalog, genre):
+    'Retorna las peliculas segun el director'
+    directorMovies = model.getMoviesByGenre(catalog, genre)
+    return directorMovies
+
+def getMoviesByPais(catalog, pais):
+    'Retorna las peliculas segun el director'
+    directorMovies = model.getMoviesByPais(catalog, pais)
+    return directorMovies
+
 
 def movies1Size(catalog):
     """Numero de libros leido
