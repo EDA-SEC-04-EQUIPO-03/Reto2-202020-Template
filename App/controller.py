@@ -90,6 +90,7 @@ def loadCasting(catalog, smallcastingfile):
         #    model.addMovieByActor(catalog,m, actor.strip())
         director=m["director_name"]
         model.addMovieByDirector(catalog,m, director.strip(), catalog['moviesID2'], iD)
+        #Agregar catalog de LoadMovies
     
 def loadMovies(catalog, smallmoviesfile):
     """

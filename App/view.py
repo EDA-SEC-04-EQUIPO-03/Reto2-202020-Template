@@ -52,14 +52,65 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 #  el controlador.
 # ___________________________________________________
 def PrintRQ1(compa):
-    #Movies de compañia 
-    print('Productora encontrada: ' + compa['producer'])
-    print('Promedio: ' + str(compa['average_rating']))
+    #Imprimir Movies de compañia 
+    print('Productora es: ' + compa['producer'])
+    print('Promedio es: ' + str(compa['average']))
     print('Total de libros: ' + str(lt.size(compa['cantidad'])))
-    iterator = it.newIterator(compa['movie'])
-    while it.hasNext(iterator):
+    iterator = it.newIterator(compa['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título: "+peli )
+        print("Título #" + str(i) + peli )
+        i+=1
+
+def PrintRQ2(direc):
+    #Imprimir Movies de director 
+    print('Director es: ' + direc['director'])
+    print('Promedio: ' + str(direc['average']))
+    print('Total de libros: ' + str(lt.size(direc['cantidad'])))
+    iterator = it.newIterator(direc['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        print("Título #" + str(i) + peli )
+        i+=1
+
+def PrintRQ3(aktor):
+    #Imprimir Movies de actor 
+    print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
+    print('Promedio es: ' + str(aktor['vote_average']))
+    print('Total de libros: ' + str(lt.size(aktor['cantidad'])))
+    #print("El director con más colaboraciones es: " + str(alkor[""]))
+    iterator = it.newIterator(compa['movies'])   #Operación fallando en model NewActor
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        print("Título #" + str(i) + peli )
+        i+=1
+
+def PrintRQ4(genre):
+    #Imprimir Movies de actor 
+    print('Genero encontrado: ' + genre['genero'])
+    print('Promedio: ' + str(genre['vote_average']))
+    print('Total de libros: ' + str(lt.size(genre['cantidad'])))
+    iterator = it.newIterator(genre['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        print("Título #" + str(i) + peli )
+        i+=1
+
+def PrintRQ5(paiz):
+    #Imprimir Movies de un país 
+    print('Pais encontrado: ' + paiz['pais'])
+    print('Promedio: ' + str(paiz['vote_average']))
+    print('Total de libros: ' + str(lt.size(paiz['cantidad'])))
+    iterator = it.newIterator(paiz['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        print("Título #" + str(i) + peli )
+        i+=1
 
 # ___________________________________________________
 #  Menu principal
@@ -96,12 +147,12 @@ while True:
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        print(movies)
+        PrintRQ1(movies)
 
     elif int(inputs[0]) == 4:
         nombre = input("Ingrese el nombre del director que desea conocer:\n")
         director = controller.getMoviesByDirector(cont, nombre)
-        print(director)
+        PrintRQ2(director)
     else:
         sys.exit(0)
 sys.exit(0)
