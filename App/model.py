@@ -237,7 +237,7 @@ def compareMovieIds(id1, id2):
     else:
         return -1
         
-def compareMapMoviesIds(id, entry):
+def compareMapMovieIds(id, entry):
     identry = me.getKey(entry)
     if (int(id) == int(identry)):
         return 0
