@@ -126,6 +126,7 @@ def PrintRQ5(paiz):
         if peli["original_title"] not in peliss:
             peliss.append(peli["original_title"])
             print("Título #" + str(i) + " "+ peli["original_title"] )
+            print("La fecha de lanzamiento es o fue: "+peli["release_date"])
             i+=1
 
 # ___________________________________________________
