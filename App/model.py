@@ -58,42 +58,38 @@ def newCatalog():
                'production_companies': None
                }
 
-    catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['moviesID1'] = mp.newMap(cantidad,
+    catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)  #Casting
+    catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)  #Detalles
+    catalog['moviesID1'] = mp.newMap(2000,
                                 maptype='CHAINING',
-                                loadfactor=factor_de_carga,
+                                loadfactor=0.7,
                                 comparefunction=compareMapMoviesIds)
-    catalog['moviesID2'] = mp.newMap(cantidad,
+    catalog['moviesID2'] = mp.newMap(2000,
                                    maptype='CHAINING',
-                                   loadfactor=factor_de_carga,
+                                   loadfactor=0.7,
                                    comparefunction=compareMapMoviesIds)
-    catalog['production_companies'] = mp.newMap(4000,
-                                   maptype='PROBING',
-                                   loadfactor=0.4,
+    catalog['production_companies'] = mp.newMap(2000,
+                                   maptype='CHAINING',
+                                   loadfactor=0.7,
                                    comparefunction=compareProductionCompanies)
+    catalog['directors'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=0.7,
+                                   comparefunction=compareDirectors)
+    catalog['actors'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=0.7,
+                                   comparefunction=compareMapMoviesIds)
+    catalog['genres'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=0.7,
+                                   comparefunction=compareMapMoviesIds) 
+    catalog['countries'] = mp.newMap(2000    ,
+                                   maptype='CHAINING',
+                                   loadfactor=0.7,
+                                   comparefunction=compareMapMoviesIds)
 
     return catalog
-
-
-
-
-
-
-# Funciones para agregar informacion al catalogo
-
-#def loadCSVFile (file, cmpfunction):
-    #lst=lt.newList("ARRAY_LIST", cmpfunction)
-    #dialect = csv.excel()
-    #dialect.delimiter=";"
-    #try:
-        #with open(  cf.data_dir + file, encoding="utf-8") as csvfile:
-           # row = csv.DictReader(csvfile, dialect=dialect)
-           # for elemento in row: 
-                #ls.addLast(lst,elemento)
-    #except:
-        #print("Hubo un error con la carga del archivo")
-    #return lst
 
 def addMovie1(catalog, movie):
     lt.addLast(catalog['movies1'], movie)
@@ -126,165 +122,97 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["average"][0]= producer["average"][0] + promedioporpeli
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
-    
+
+def addMovieByDirector(catalog, movie, movie_director):
+    directors = catalog['directors']
+    checkDirector = mp.contains(directors, movie_director)
+    if checkDirector:
+        entry = mp.get(directors, movie_director)
+        director = me.getValue(entry)
+    else:
+        director = newDirector(movie_director)
+        mp.put(directors, movie_director, director)
+    lt.addLast(director['movies'], movie)
+
+    promedioporpeli = movie['vote_average']
+    if director["average"][0]==0.0:
+        director["average"][0]=promedioporpeli
+        director["cantidad"] = 1
+    else:
+        director["average"][0]= director["average"][0] + promedioporpeli
+        director["cantidad"] += 1
+    director["average"][1]=director["average"][0] / director["cantidad"]
+
+# Funciones de consulta
+
+def getmoviesByDirector(catalog, name_director):
+    director = mp.get(catalog['directors'], name_director)
+    if director:
+        return me.getValue(director)
+    return None
+def getmoviesByActor(catalog, name_actor):
+    actor = mp.get(catalog['actors'], name_actor)
+    if actor:
+        return me.getValue(actor)
+    return None
+def getmoviesByProductionCompany(catalog, companyname):
+    company = mp.get(catalog['production_companies'], companyname)
+    if company:
+        return me.getValue(company)
+    return None
+def getmoviesByGenres(catalog, genero):
+    genre = mp.get(catalog['genres'], genero)
+    if genre:
+        return me.getValue(genre)
+    return None
+def getmoviesByCountry(catalog,countryname):
+    country = mp.get(catalog['countries'], countryname)
+    if country:
+        return me.getValue(country)
+    return None
+
+#Funciones de carga
+
 def newProducer(movie_product):
    entry = {'producer': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
    entry['producer'] = movie_product
-   entry['movies'] = lt.newList('SINGLE_LINKED', compareProductionCompanies)
+   entry['movies'] = lt.newList('ARRAY_LIST', compareProductionCompanies)
    return entry
 
-def compareProductionCompanies(company, entry):
-    ret=0
-    compa = me.getKey(entry)
-    if (company > compa):
-        ret=1
-    return ret
+def newDirector(name_director):
+   entry = {'director': "", "movies": None, "average": [0.0,1.1], "cantidad": 0}
+   entry['director'] = name_director
+   entry['movies'] = lt.newList('ARRAY_LIST', compareDirectors)
+   return entry
 
-# def addBook(catalog, book):
-#     """
-#     Esta funcion adiciona un libro a la lista de libros,
-#     adicionalmente lo guarda en un Map usando como llave su Id.
-#     Finalmente crea una entrada en el Map de años, para indicar que este
-#     libro fue publicaco en ese año.
-#     """
-#     lt.addLast(catalog['books'], book)
-#     mp.put(catalog['bookIds'], book['goodreads_book_id'], book)
-#     addBookYear(catalog, book)
+def NewCountry(countryName):
+    entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+    entry['pais'] = countryName
+    entry['movies'] = lt.newList('ARRAY_LIST', compareCountry)
+    return entry
 
+def NewActor(actorName):
+    entry = {'actor': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+    entry['actor'] = actorName
+    entry['movies'] = lt.newList('ARRAY_LIST', compareActors)
+    return entry
 
-# def addBookYear(catalog, book):
-#     """
-#     Esta funcion adiciona un libro a la lista de libros que
-#     fueron publicados en un año especifico.
-#     Los años se guardan en un Map, donde la llave es el año
-#     y el valor la lista de libros de ese año.
-#     """
-#     years = catalog['years']
-#     pubyear = book['original_publication_year']
-#     pubyear = int(float(pubyear))
-#     existyear = mp.contains(years, pubyear)
-#     if existyear:
-#         entry = mp.get(years, pubyear)
-#         year = me.getValue(entry)
-#     else:
-#         year = newYear(pubyear)
-#         mp.put(years, pubyear, year)
-#     lt.addLast(year['books'], book)
+def NewGenre(genreName):
+    entry = {'genero': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+    entry['genero'] = genreName
+    entry['movies'] = lt.newList('ARRAY_LIST', compareGenres)
+    return entry
 
+#Funciones Comparación 
 
-# def newYear(pubyear):
-#     """
-#     Esta funcion crea la estructura de libros asociados
-#     a un año.
-#     """
-#     entry = {'year': "", "books": None}
-#     entry['year'] = pubyear
-#     entry['books'] = lt.newList('SINGLE_LINKED', compareYears)
-#     return entry
-
-
-# def addBookAuthor(catalog, authorname, book):
-#     """
-#     Esta función adiciona un libro a la lista de libros publicados
-#     por un autor.
-#     Cuando se adiciona el libro se actualiza el promedio de dicho autor
-#     """
-#     authors = catalog['authors']
-#     existauthor = mp.contains(authors, authorname)
-#     if existauthor:
-#         entry = mp.get(authors, authorname)
-#         author = me.getValue(entry)
-#     else:
-#         author = newAuthor(authorname)
-#         mp.put(authors, authorname, author)
-#     lt.addLast(author['books'], book)
-
-#     authavg = author['average_rating']
-#     bookavg = book['average_rating']
-#     if (authavg == 0.0):
-#         author['average_rating'] = float(bookavg)
-#     else:
-#         author['average_rating'] = (authavg + float(bookavg)) / 2
-
-
-# def addTag(catalog, tag):
-#     """
-#     Adiciona un tag a la tabla de tags dentro del catalogo
-#     """
-#     newtag = newTagBook(tag['tag_name'], tag['tag_id'])
-#     mp.put(catalog['tags'], tag['tag_name'], newtag)
-#     mp.put(catalog['tagIds'], tag['tag_id'], newtag)
-
-
-# def addBookTag(catalog, tag):
-#     """
-#     Agrega una relación entre un libro y un tag.
-#     Para ello se adiciona el libro a la lista de libros
-#     del tag.
-#     """
-#     bookid = tag['goodreads_book_id']
-#     tagid = tag['tag_id']
-#     entry = mp.get(catalog['tagIds'], tagid)
-
-#     if entry:
-#         tagbook = mp.get(catalog['tags'], me.getValue(entry)['name'])
-#         tagbook['value']['total_books'] += 1
-#         tagbook['value']['count'] += int(tag['count'])
-#         book = mp.get(catalog['bookIds'], bookid)
-#         if book:
-#             lt.addLast(tagbook['value']['books'], book['value'])
-
-
-# ==============================
-# Funciones de consulta
-# ==============================
-
-
-def getMoviesByProductionCompanie(catalog, production_companies):
-    """
-    Retorna un autor con sus libros a partir del nombre del autor
-    """
-    production = mp.get(catalog['production_companies'], production_companies)
-    if production:
-        return me.getValue(production)
-    return None
-
-
-
-
-
-# ==============================
-# Funciones de Comparacion
-# ==============================
-
-
-def compareProductionCompanies(company, entry):
-    """
-    Compara dos prductoras de peliculas
-    """
-    companyentry = me.getKey(entry)
-    if (company == companyentry):
-        return 0
-    elif (company > companyentry):
-        return 1
-    else:
-        return -1
 def compareMovieIds(id1, id2):
-    """
-    Compara dos ids de peliculas
-    """
-    if (id1 == id2):
+    if (int(id1) == int(id2)):
         return 0
-    elif id1 > id2:
+    elif int(id1) > int(id2):
         return 1
     else:
         return -1
-
-def compareMapMovieIds(id, entry):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
+def compareMapMoviesIds(id, entry):
     identry = me.getKey(entry)
     if (int(id) == int(identry)):
         return 0
@@ -293,61 +221,62 @@ def compareMapMovieIds(id, entry):
     else:
         return -1
 
-
-def compareAuthorsByName(keyname, author):
-    """
-    Compara dos nombres de autor. El primero es una cadena
-    y el segundo un entry de un map
-    """
-    authentry = me.getKey(author)
-    if (keyname == authentry):
+def compareProductionCompanies(company, entry):
+    companyentry = me.getKey(entry)
+    if (company == companyentry):
         return 0
-    elif (keyname > authentry):
+    elif (company > companyentry):
+        return 1
+    else:
+        return 0
+    
+def compareDirectors(director, entry):
+    directorentry = me.getKey(entry)
+    if (director == directorentry):
+        return 0
+    elif (director > directorentry):
         return 1
     else:
         return -1
 
-
-def compareTagNames(name, tag):
-    tagentry = me.getKey(tag)
-    if (name == tagentry):
+def compareActors(actor, entry):
+    actorentry = me.getKey(entry)
+    if (actor == actorentry):
         return 0
-    elif (name > tagentry):
+    elif (actor > actorentry):
         return 1
     else:
         return -1
 
-
-def compareTagIds(id, tag):
-    tagentry = me.getKey(tag)
-    if (int(id) == int(tagentry)):
+def compareGenres(genre, entry):
+    genreentry = me.getKey(entry)
+    if (genre == genreentry):
         return 0
-    elif (int(id) > int(tagentry)):
+    elif (genre > genreentry):
         return 1
     else:
-        return 0
+        return -1
 
-
-def compareMapYear(id, tag):
-    tagentry = me.getKey(tag)
-    if (id == tagentry):
+def compareCountry(country, entry):
+    countryentry = me.getKey(entry)
+    if (country == countryentry):
         return 0
-    elif (id > tagentry):
+    elif (country > countryentry):
         return 1
     else:
-        return 0
+        return 0 
 
+#Funciones Size
 
-def compareYears(year1, year2):
-    if (int(year1) == int(year2)):
-        return 0
-    elif (int(year1) > int(year2)):
-        return 1
-    else:
-        return 0
-
-# ==============================
-# Funciones de Comparacion
-# ==============================
-
-
+def CastingSize(catalog):
+    return lt.size(catalog['movies1'])
+def DetailsSize(catalog):
+    return lt.size(catalog['movies2'])
+def ActorsSize(catalog):
+    return mp.size(catalog['actors'])
+def GenresSize(catalog):
+    return mp.size(catalog['genres'])
+def CountriesSize(catalog):
+    return mp.size(catalog['countries'])
+def ProductionCompaniesSize(catalog):
+    return mp.size(catalog['production_companies'])

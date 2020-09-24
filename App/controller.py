@@ -41,7 +41,7 @@ def initCatalog():
     """
     # catalog es utilizado para interactuar con el modelo
     catalog = model.newCatalog()
-    print("Carga completa")
+    print("Catalogo Creado !")
     return catalog
 
 # ___________________________________________________
@@ -86,9 +86,9 @@ def loadCasting(catalog, smallcastingfile):
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
         for actor in lista_actors:
-            model.addMovieByAutor(catalog, actor.strip(), m)
+            model.addMovieByAutor(catalog,m, actor.strip())
         director=m["director_name"]
-        model.addMovieByDirector(catalog, director.strip(), m)
+        model.addMovieByDirector(catalog,m, director.strip())
     
 def loadMovies(catalog, smallmoviesfile):
     """
@@ -110,9 +110,9 @@ def loadMovies(catalog, smallmoviesfile):
 #  Funciones para consultas
 # ____________________________________________
 
-def getMoviesByProductionCompanie(catalog, production_companies):
+def getMoviesByProductionCompanie(catalog, production_company):
     "Retorna las películas según una productora dada"
-    production_info=model.getMoviesByProductionCompanie(catalog, production_companies)
+    production_info=model.getMoviesByCompany(catalog, production_company)
     return production_info
 
 def moviesDetallesSize(catalog):
