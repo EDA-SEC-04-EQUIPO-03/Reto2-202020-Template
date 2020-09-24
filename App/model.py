@@ -143,13 +143,14 @@ def addMovieByDirector(catalog, movie, movie_director):
         director["cantidad"] += 1
     director["average"][1]=director["average"][0] / director["cantidad"]
 
-# Funciones de consulta
+# Funciones de consulta (get)
 
 def getmoviesByDirector(catalog, name_director):
     director = mp.get(catalog['directors'], name_director)
     if director:
         return me.getValue(director)
     return None
+
 def getmoviesByActor(catalog, name_actor):
     actor = mp.get(catalog['actors'], name_actor)
     if actor:
@@ -185,6 +186,7 @@ def newDirector(name_director):
    entry['movies'] = lt.newList('ARRAY_LIST', compareDirectors)
    return entry
 
+
 def NewCountry(countryName):
     entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
     entry['pais'] = countryName
@@ -212,6 +214,7 @@ def compareMovieIds(id1, id2):
         return 1
     else:
         return -1
+        
 def compareMapMoviesIds(id, entry):
     identry = me.getKey(entry)
     if (int(id) == int(identry)):
