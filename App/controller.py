@@ -57,10 +57,6 @@ def printUltimoyprim(TAD):
     lista.append(ultimis)
     return lista
 
-<<<<<<< HEAD
-
-=======
->>>>>>> Rama-Lab4
 def loadData(catalog, smallmoviesfile, smallcastingfile, moviesfile , castingfile ):
 
     loadMovies(catalog, smallmoviesfile)
