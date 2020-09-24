@@ -129,12 +129,12 @@ def getMoviesByActor(catalog, actor):
 
 def getMoviesByGenre(catalog, genre):
     'Retorna las peliculas segun el director'
-    directorMovies = model.getMoviesByGenre(catalog, genre)
+    directorMovies = model.getMoviesByGenres(catalog, genre)
     return directorMovies
 
 def getMoviesByPais(catalog, pais):
     'Retorna las peliculas segun el director'
-    directorMovies = model.getMoviesByPais(catalog, pais)
+    directorMovies = model.getMoviesByCountry(catalog, pais)
     return directorMovies
 
 

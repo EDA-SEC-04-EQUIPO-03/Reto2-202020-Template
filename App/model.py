@@ -167,6 +167,9 @@ def addMovieByGenre(catalog, movie, gender):
 
 # Funciones de consulta (get)
 
+def adMoviesByCountry(catalog, movie, gender):
+    a
+
 def getMoviesByDirector(catalog, name_director):
     director = mp.get(catalog['directors'], name_director)
     if director:
