@@ -25,7 +25,7 @@ import config
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
 from App import controller
-from time import process_time 
+from time import process_time
 assert config
 
 """
