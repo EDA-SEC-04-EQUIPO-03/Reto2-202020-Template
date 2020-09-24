@@ -178,6 +178,15 @@ def addMoviesByCountry(catalog, movie, country):
         pais_movie = newGenre(gender)
         mp.put(paises, country, pais_movie)
     lt.addLast(gener_mov['genres'], movie)
+    
+    promedio_peli=float(movie["vote_average"])
+    if pais_movie["vote_average"][0]==0.0:
+        pais_movie["vote_average"][0]=promedio_peli
+        pais_movie["cantidad"] = 1
+    else:
+        pais_movie["vote_average"][0]= pais_movie["vote_average"][0] + promedio_peli
+        pais_movie["cantidad"] += 1
+    pais_movie["vote_average"][1]=pais_movie["vote_average"][0] / pais_movie["vote_average"]
 
 #def addMoviesByCountry(catalog)
 def addMovieByActor(catalog, movie, movie_actor, extra, iD):
