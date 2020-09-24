@@ -154,7 +154,7 @@ def addMovieByGenre(catalog, movie, gender):
         gener_mov = me.getValue(entry)
     else:
         gener_mov = newGenre(gender)
-        mp.put(genders, gender, director)
+        mp.put(genders, gender, gener_mov)
     lt.addLast(gener_mov['genres'], movie)
 
     promedioporpeli = movie['vote_count']
@@ -165,6 +165,46 @@ def addMovieByGenre(catalog, movie, gender):
         gener_mov["count"][0]= gener_mov["count"][0] + promedioporpeli
         gener_mov["cantidad"] += 1
     gener_mov["count"][1]=gener_mov["count"][0] / gener_mov["cantidad"]
+
+def addMovieByActor(catalog, movie, movie_actor, extra, iD, movie3):
+    movie2 = mp.get(extra, iD)
+    movie2VC = me.getValue(movie2)['vote_average']
+    actors = catalog['actors']
+    checkActor = mp.contains(actors, movie_actor)
+    if checkActor:
+        entry = mp.get(actors, movie_actor)
+        actor = me.getValue(entry)
+    else:
+        actor = newActor(movie_actor)
+        mp.put(actors, movie_actor, actor)
+    lt.addLast(actor['movies'], movie)
+
+    iterator = it.newIterator(actor["movies"])
+    while it.hasNext(iterator):
+        element = it.next(iterator)
+        if element["director_name"] in ddict.keys():
+            ddict[element["director_name"]] += 1
+
+        else:
+            ddict[element["director_name"]] = 1
+    mayor = 0
+    dmayor = ""
+    for key in ddict:
+        if ddict[key]>mayor:
+            mayor = ddict[key]
+            dmayor = key 
+
+    promedioporpeli = float(movie2VC)
+    if actor["average"][0]==0.0:
+        actor["average"][0]=promedioporpeli
+        actor["cantidad"] = 1
+    else:
+        actor["average"][0]= actor["average"][0] + promedioporpeli
+        actor["cantidad"] += 1
+    actor["average"][1]=actor["average"][0] / actor["cantidad"]
+
+    
+
 
 
 # Funciones de consulta (get)
@@ -212,14 +252,17 @@ def newDirector(name_director):
    return entry
 
 
-def NewCountry(countryName):
+def newCountry(countryName):
     entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
     entry['pais'] = countryName
     entry['movies'] = lt.newList('ARRAY_LIST', compareCountry)
     return entry
 
-def NewActor(actorName):
-    entry = {'actor': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+def newActor(actorName):
+    mayor = 0
+    dmayor = ""
+    ddict={}
+    entry = {'actor': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0, "director":"", "ddict":""}
     entry['actor'] = actorName
     entry['movies'] = lt.newList('ARRAY_LIST', compareActors)
     return entry

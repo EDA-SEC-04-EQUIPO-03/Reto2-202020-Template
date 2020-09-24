@@ -112,55 +112,10 @@ def getMoviesByProductionCompanie(catalog, production_company):
     production_info=model.getMoviesByCompany(catalog, production_company)
     return production_info
 
-def moviesDetallesSize(catalog):
-    return model.movies1Size(catalog)
-
-def moviesCastingSize(catalog):
-    return model.movies2Size(catalog)
-
-def moviesIdsSize(catalog):
-    return model.MoviesIdsSize(catalog)
-
-def actorsSize(catalog):
-    return model.actorsSize(catalog)
-
-def genresSize(catalog):
-    return model.genresSize(catalog)
-def productionCompaniesSize(catalog):
-    return model.productionCompaniesSize(catalog)
-
-def countriesSize(catalog):
-    return model.countriesSize(catalog)
-
-def voteAverageSize(catalog):
-    return model.voteAverageSize(catalog)
-
-def voteCountSize(catalog):
-    return model.voteCountSize(catalog)
-
-def getMoviesByDirector(catalog):
-    return model.moviesByDirector(catalog)
-
-def getMoviesByActor(catalog):
-    return model.moviesByActor(catalog)
-
-def getMoviesByProductionCompanies(catalog):
-    return model.moviesByProductionCompany(catalog)
-
-def getMoviesByCountry(catalog):
-    return model.moviesByCountry(catalog)
-
-def getMoviesByGenre(catalog):
-    return model.moviesByGenre(catalog)
-
-def descubrirProductorasDeCine(catalog, nameCompany):
-    return model.descubrirProductorasDeCine(catalog, nameCompany)
-
 def getMoviesByDirector(catalog, director):
     'Retorna las peliculas segun el director'
     directorMovies = model.getMoviesByDirector(catalog, director)
     return directorMovies
-
 
 def movies1Size(catalog):
     """Numero de libros leido
@@ -171,5 +126,3 @@ def movies2Size(catalog):
     """Numero de libros leido
     """
     return model.DetailsSize(catalog)
-
-
