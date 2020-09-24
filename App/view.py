@@ -25,6 +25,7 @@ import config
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import listiterator as it
 from App import controller
+from time import process_time 
 assert config
 
 """
@@ -86,8 +87,12 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
-        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile) 
-        print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
+        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
+        controller.loadMoviesArchivo() 
+        t1_start = process_time()
+        print('Peliculas (Details) cargadas: ' + str(controller.movies1Size(cont)))
+        print('Peliculas (CastingRaw) cargadas: ' + str(controller.movies2Size(cont)))
+        t1_stop = process_time()
 
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
