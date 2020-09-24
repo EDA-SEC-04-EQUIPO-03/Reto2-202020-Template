@@ -52,14 +52,81 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 #  el controlador.
 # ___________________________________________________
 def PrintRQ1(compa):
-    #Movies de compañia 
-    print('Productora encontrada: ' + compa['producer'])
-    print('Promedio: ' + str(compa['average_rating']))
-    print('Total de libros: ' + str(lt.size(compa['cantidad'])))
-    iterator = it.newIterator(compa['movie'])
-    while it.hasNext(iterator):
+    #Imprimir Movies de compañia
+    peliss=[] 
+    print('Productora es: ' + compa['producer'])
+    print('Promedio es: ' + str(compa['average'][1]))
+    print('Total de películas: ' + str(lt.size(compa['movies'])))
+    iterator = it.newIterator(compa["movies"])
+    i=0
+    while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título: "+peli )
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) +" "+ str(peli["original_title"]) )
+            i+=1
+    
+
+def PrintRQ2(direc):
+    #Imprimir Movies de director 
+    peliss=[]
+    print('Director es: ' + direc['director'])
+    print('Promedio: ' + str(direc['average'][1]))
+    print('Total de películas: ' + str(lt.size(direc['movies'])))
+    iterator = it.newIterator(direc['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) +" "+ peli["original_title"] )
+            i+=1
+
+def PrintRQ3(aktor):
+    #Imprimir Movies de actor
+    peliss=[] 
+    print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
+    print('Promedio es: ' + str(aktor['vote_average'][1]))
+    print('Total de películas: ' + str(lt.size(aktor['movies'])))
+    #print("El director con más colaboraciones es: " + str(alkor[""]))
+    iterator = it.newIterator(compa['movies'])   #Operación fallando en model NewActor
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
+
+def PrintRQ4(genre):
+    #Imprimir Movies de actor 
+    peliss=[]
+    print('Genero encontrado: ' + genre['genero'])
+    print('Promedio: ' + str(genre['vote_average'][1]))
+    print('Total de películas: ' + str(lt.size(genre['movies'])))
+    iterator = it.newIterator(genre['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
+
+def PrintRQ5(paiz):
+    peliss=[]
+    #Imprimir Movies de un país 
+    print('Pais encontrado: ' + paiz['pais'])
+    print('Promedio: ' + str(paiz['vote_average'][1]))
+    print('Total de películas: ' + str(lt.size(paiz['movies'])))
+    iterator = it.newIterator(paiz['movies'])
+    i=0
+    while it.hasNext(iterator) and i<6:
+        peli = it.next(iterator)
+        if peli["original_title"] not in peliss:
+            peliss.append(peli["original_title"])
+            print("Título #" + str(i) + " "+ peli["original_title"] )
+            i+=1
 
 # ___________________________________________________
 #  Menu principal
@@ -96,12 +163,24 @@ while True:
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
-        print(movies)
+        PrintRQ1(movies)
 
     elif int(inputs[0]) == 4:
         nombre = input("Ingrese el nombre del director que desea conocer:\n")
         director = controller.getMoviesByDirector(cont, nombre)
-        print(director)
+        PrintRQ2(director)
+    elif int(inputs[0]) == 5:
+        nombre = input("Ingrese el nombre de un actor que desea conocer:\n")
+        director = controller.getMoviesByActor(cont, nombre)
+        PrintRQ3(director)
+    elif int(inputs[0]) == 6:
+        nombre = input("Ingrese el genero de película que desea conocer:\n")
+        director = controller.getMoviesByGenre(cont, nombre)
+        PrintRQ4(director)
+    elif int(inputs[0]) == 7:
+        nombre = input("Ingrese el nombre del país a filtrar:\n")
+        director = controller.getMoviesByPais(cont, nombre)
+        PrintRQ5(director)
     else:
         sys.exit(0)
 sys.exit(0)
