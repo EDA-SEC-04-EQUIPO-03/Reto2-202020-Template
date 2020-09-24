@@ -153,7 +153,7 @@ def addMovieByGenre(catalog, movie, gender):
         gener_mov = me.getValue(entry)
     else:
         gener_mov = newGenre(gender)
-        mp.put(genders, gender, director)
+        mp.put(genders, gender, gener_mov)
     lt.addLast(gener_mov['genres'], movie)
 
     promedioporpeli = movie['vote_count']
@@ -166,14 +166,20 @@ def addMovieByGenre(catalog, movie, gender):
     gener_mov["count"][1]=gener_mov["count"][0] / gener_mov["cantidad"]
 
 
-
-#def addMoviesByCountry(catalog)
+def addMoviesByCountry(catalog, movie, country):
+    paises = catalog["country"]
+    checkCountry = mp.contains(paises, country)
+    if checkCountry:
+        entry = mp.get(paises, country)
+        pais_movie = me.getValue(entry)
+    else:
+        pais_movie = newGenre(gender)
+        mp.put(paises, country, pais_movie)
+    lt.addLast(gener_mov['genres'], movie)
 
 
 # Funciones de consulta (get)
 
-def adMoviesByCountry(catalog, movie, gender):
-    a
 
 def getMoviesByDirector(catalog, name_director):
     director = mp.get(catalog['directors'], name_director)
