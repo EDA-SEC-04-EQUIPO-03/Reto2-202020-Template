@@ -82,8 +82,8 @@ def loadCasting(catalog, smallcastingfile):
         lista_actors.append(m["actor3_name"])
         lista_actors.append(m["actor4_name"])
         lista_actors.append(m["actor5_name"])
-        #for actor in lista_actors:
-        #    model.addMovieByActor(catalog,m, actor.strip())
+        for actor in lista_actors:
+            model.addMovieByActor(catalog,m, actor.strip(),catalog['moviesID2'], iD)
         director=m["director_name"]
         model.addMovieByDirector(catalog,m, director.strip(), catalog['moviesID2'], iD)
     
@@ -126,3 +126,8 @@ def movies2Size(catalog):
     """Numero de libros leido
     """
     return model.DetailsSize(catalog)
+
+def getMoviesByActor(catalog, actor):
+    'Retorna las peliculas segun el director'
+    actorMovies = model.getMoviesByActor(catalog, actor)
+    return actorMovies

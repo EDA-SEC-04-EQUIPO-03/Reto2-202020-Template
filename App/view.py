@@ -103,6 +103,11 @@ while True:
         nombre = input("Ingrese el nombre del director que desea conocer:\n")
         director = controller.getMoviesByDirector(cont, nombre)
         print(director)
+    
+    elif int(inputs[0]) == 5:
+        nombre = input("Ingrese el nombre del actor que desea conocer:\n")
+        actor = controller.getMoviesByActor(cont, nombre)
+        print(actor)
     else:
         sys.exit(0)
 sys.exit(0)
