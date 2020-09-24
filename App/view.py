@@ -60,7 +60,7 @@ def PrintRQ1(compa):
     i=0
     while it.hasNext(iterator) and i<6:
         peli = it.next(iterator)
-        print("Título #" + str(i) +" "+ str(peli) )
+        print("Título #" + str(i) +" "+ str(peli["original_title"]) )
         i+=1
 
 def PrintRQ2(direc):
