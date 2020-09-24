@@ -53,7 +53,7 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 # ___________________________________________________
 def PrintRQ1(compa):
     #Imprimir Movies de compañia
-    peli=[] 
+    peliss=[] 
     print('Productora es: ' + compa['producer'])
     print('Promedio es: ' + str(compa['average'][1]))
     print('Total de libros: ' + str(lt.size(compa['movies'])))
