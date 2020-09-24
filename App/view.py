@@ -54,8 +54,8 @@ castingfile= "Movies/1AllMoviesCastingRaw.csv"
 def PrintRQ1(compa):
     #Imprimir Movies de compañia 
     print('Productora es: ' + compa['producer'])
-    print('Promedio es: ' + str(compa['average']))
-    print('Total de libros: ' + str(lt.size(compa['cantidad'])))
+    print('Promedio es: ' + str(compa['average'][1]))
+    print('Total de libros: ' + str(lt.size(compa['movies'])))
     iterator = it.newIterator(compa['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -66,8 +66,8 @@ def PrintRQ1(compa):
 def PrintRQ2(direc):
     #Imprimir Movies de director 
     print('Director es: ' + direc['director'])
-    print('Promedio: ' + str(direc['average']))
-    print('Total de libros: ' + str(lt.size(direc['cantidad'])))
+    print('Promedio: ' + str(direc['average'][1]))
+    print('Total de libros: ' + str(lt.size(direc['movies'])))
     iterator = it.newIterator(direc['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -78,8 +78,8 @@ def PrintRQ2(direc):
 def PrintRQ3(aktor):
     #Imprimir Movies de actor 
     print('Actor es: ' + aktor['actor']) #actor se define en model NewActor
-    print('Promedio es: ' + str(aktor['vote_average']))
-    print('Total de libros: ' + str(lt.size(aktor['cantidad'])))
+    print('Promedio es: ' + str(aktor['vote_average'][1]))
+    print('Total de libros: ' + str(lt.size(aktor['movies'])))
     #print("El director con más colaboraciones es: " + str(alkor[""]))
     iterator = it.newIterator(compa['movies'])   #Operación fallando en model NewActor
     i=0
@@ -91,8 +91,8 @@ def PrintRQ3(aktor):
 def PrintRQ4(genre):
     #Imprimir Movies de actor 
     print('Genero encontrado: ' + genre['genero'])
-    print('Promedio: ' + str(genre['vote_average']))
-    print('Total de libros: ' + str(lt.size(genre['cantidad'])))
+    print('Promedio: ' + str(genre['vote_average'][1]))
+    print('Total de libros: ' + str(lt.size(genre['movies'])))
     iterator = it.newIterator(genre['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
@@ -103,8 +103,8 @@ def PrintRQ4(genre):
 def PrintRQ5(paiz):
     #Imprimir Movies de un país 
     print('Pais encontrado: ' + paiz['pais'])
-    print('Promedio: ' + str(paiz['vote_average']))
-    print('Total de libros: ' + str(lt.size(paiz['cantidad'])))
+    print('Promedio: ' + str(paiz['vote_average'][1]))
+    print('Total de libros: ' + str(lt.size(paiz['movies'])))
     iterator = it.newIterator(paiz['movies'])
     i=0
     while it.hasNext(iterator) and i<6:
