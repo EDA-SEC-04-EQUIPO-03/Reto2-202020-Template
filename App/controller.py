@@ -102,6 +102,9 @@ def loadMovies(catalog, smallmoviesfile):
         companion=m["production_companies"].split(",")
         for cada_companion in companion:
             model.addMovieByProducer(catalog, m, cada_companion)
+        genre=m["genres"].split(" | ")
+        for g in genre:
+            model.addMovieByGenre(catalog,m,g)
         # genero y paizez
 
 # ___________________________________________________
@@ -125,7 +128,7 @@ def getMoviesByActor(catalog, actor):
 
 def getMoviesByGenre(catalog, genre):
     'Retorna las peliculas segun el director'
-    directorMovies = model.getMoviesByGenres(catalog, genre)
+    directorMovies = model.getMovieByGenre(catalog, genre)
     return directorMovies
 
 def getMoviesByPais(catalog, pais):
