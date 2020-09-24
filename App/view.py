@@ -63,6 +63,10 @@ def printMenu():
     print("1- Inicializar Catálogo de películas")
     print("2- Cargar información en el catálogo")
     print("3- Descubrir productoras de cine")
+    print("4- Conocer un director")
+    print("5- Conocer un Actor")
+    print("6- Entender un genero ")
+    print("7- Conocer un pais")
     print("0- Salir")
 
 while True:
@@ -75,14 +79,18 @@ while True:
 
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
-        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile)
-        controller.loadMoviesArchivo() 
+        controller.loadData(cont, smallmoviesfile, smallcastingfile, moviesfile, castingfile) 
         print('Peliculas cargadas: ' + str(controller.moviesSize(cont)))
 
     elif int(inputs[0]) == 3:
         nombre = input("Consultando productoras de cine...: ")
         movies = controller.getMoviesByProductionCompanie(cont, nombre)
         print(movies)
+
+    elif int(inputs[0]) == 3:
+        nombre = input("Ingrese el nombre del director que desea conocer:\n")
+        director = controller.getMoviesByDirector(cont, nombre)
+        print(director)
     else:
         sys.exit(0)
 sys.exit(0)

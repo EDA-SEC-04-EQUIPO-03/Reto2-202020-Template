@@ -58,36 +58,36 @@ def newCatalog():
                'production_companies': None
                }
 
-    catalog['movies1'] = lt.newList('SINGLE_LINKED', compareMovieIds)
-    catalog['movies2'] = lt.newList('SINGLE_LINKED', compareMovieIds)
+    catalog['movies1'] = lt.newList('ARRAY_LIST', compareMovieIds)
+    catalog['movies2'] = lt.newList('ARRAY_LIST', compareMovieIds)
     catalog['moviesID1'] = mp.newMap(2000,
-                                maptype='CHAINING',
+                                maptype='PROBING',
                                 loadfactor= 1,
-                                comparefunction=compareMapMoviesIds)
+                                comparefunction=compareMapMovieIds)
     catalog['moviesID2'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
+                                   maptype='PROBING',
                                    loadfactor=1,
-                                   comparefunction=compareMapMoviesIds)
-    catalog['production_companies'] = mp.newMap(4000,
+                                   comparefunction=compareMapMovieIds)
+    catalog['production_companies'] = mp.newMap(2000,
                                    maptype='PROBING',
                                    loadfactor=0.5,
                                    comparefunction=compareProductionCompanies)
-    catolog['directors'] = mp.newMap(2000    ,
-                                   maptype='CHAINING',
+    catalog['directors'] = mp.newMap(2000   ,
+                                   maptype='PROBING',
                                    loadfactor=1,
                                    comparefunction=compareDirectors)
-    catolog['actors'] = mp.newMap(2000    ,
+    catalog['actors'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
-                                   comparefunction=compareMapMoviesIds)
-    catolog['genres'] = mp.newMap(2000    ,
+                                   comparefunction=compareMapMovieIds)
+    catalog['genres'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
-                                   comparefunction=compareMapMoviesIds) 
-    catolog['country'] = mp.newMap(2000    ,
+                                   comparefunction=compareMapMovieIds) 
+    catalog['country'] = mp.newMap(2000    ,
                                    maptype='CHAINING',
                                    loadfactor=1,
-                                   comparefunction=compareMapMoviesIds)
+                                   comparefunction=compareMapMovieIds)
 
     return catalog
 
@@ -99,11 +99,11 @@ def newCatalog():
 
 def addMovie1(catalog, movie):
     lt.addLast(catalog['movies1'], movie)
-    mp.put(catalog['movieID1'], movie['id'], movie)
+    mp.put(catalog['moviesID1'], movie['id'], movie)
 
 def addMovie2(catalog, movie):
     lt.addLast(catalog['movies2'], movie)
-    mp.put(catalog['movieID2'], movie['id'], movie)
+    mp.put(catalog['moviesID2'], movie['id'], movie)
     producer_name=movie["production_companies"].split(",")
     for producer in producer_name:
         addMovieByProducer(catalog, movie, producer)
@@ -120,7 +120,7 @@ def addMovieByProducer(catalog, movie,movie_product):
         mp.put(producers, movie_product, producer)
     lt.addLast(producer['movies'], movie)
 
-    promedioporpeli = movie['vote_average']
+    promedioporpeli = float(movie['vote_average'])
     if producer["average"][0]==0.0:
         producer["average"][0]=promedioporpeli
         producer["cantidad"] = 1
@@ -129,7 +129,9 @@ def addMovieByProducer(catalog, movie,movie_product):
         producer["cantidad"] += 1
     producer["average"][1]=producer["average"][0] / producer["cantidad"]
 
-def addMovieByDirector(catalog, movie, movie_director):
+def addMovieByDirector(catalog, movie, movie_director, extra, iD):
+    movie2 = mp.get(extra, iD)
+    movie2VC = me.getValue(movie2)['vote_average']
     directors = catalog['directors']
     checkDirector = mp.contains(directors, movie_director)
     if checkDirector:
@@ -140,7 +142,7 @@ def addMovieByDirector(catalog, movie, movie_director):
         mp.put(directors, movie_director, director)
     lt.addLast(director['movies'], movie)
 
-    promedioporpeli = movie['vote_average']
+    promedioporpeli = float(movie2VC)
     if director["average"][0]==0.0:
         director["average"][0]=promedioporpeli
         director["cantidad"] = 1
@@ -191,6 +193,18 @@ def getMoviesByProductionCompanie(catalog, production_companies):
     if production:
         return me.getValue(production)
     return None
+
+
+def getMoviesByDirector(catalog, director):
+    ret = None
+    direc = mp.get(catalog['directors'], director)
+    if direc:
+        ret = me.getValue(director)
+    return ret
+
+
+     
+
 
 
 
