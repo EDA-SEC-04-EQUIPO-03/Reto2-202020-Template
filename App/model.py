@@ -165,6 +165,11 @@ def addMovieByGenre(catalog, movie, gender):
         gener_mov["cantidad"] += 1
     gener_mov["count"][1]=gener_mov["count"][0] / gener_mov["cantidad"]
 
+
+
+#def addMoviesByCountry(catalog)
+
+
 # Funciones de consulta (get)
 
 def adMoviesByCountry(catalog, movie, gender):
@@ -214,7 +219,7 @@ def newDirector(name_director):
 
 
 def NewCountry(countryName):
-    entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0}
+    entry = {'pais': "", "movies": None, 'vote_average': [0.0,1.1], 'cantidad': 0   }
     entry['pais'] = countryName
     entry['movies'] = lt.newList('ARRAY_LIST', compareCountry)
     return entry
